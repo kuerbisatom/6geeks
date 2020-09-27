@@ -1,0 +1,70 @@
+html{
+    font-family: "Gill Sans";
+    margin:0;
+}
+body{
+    margin:0;
+}
+.topbar {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.topbar a {
+    text-decoration: none;
+    border-radius: 25px;
+    float: left;
+    color:black;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 24px;
+}
+
+.topbar a:hover {
+    border-radius: 25px;
+    background-color: darksalmon;
+    color: black;
+}
+
+.topbar a.active {
+    border-radius: 25px;
+    background-color: brown;
+    color: white;
+}
+
+h1{
+    padding-left: 10px;
+}
+
+.introtext{
+    font-size:20px;
+    padding-left: 50px;
+    width:70%;
+}
+.table{
+    float: center;
+}
+.column {
+    float: left;
+    width: 30%;
+    margin-bottom: 16px;
+    padding-left: 30px;
+    padding-top: 30px;
+}
+
+
+
+/* Add some shadows to create a card effect */
+.card {
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Some left and right padding inside the container */
+
