@@ -1,2 +1,2 @@
 # 6geeks
-Project- Course UCD
+Project UCD
