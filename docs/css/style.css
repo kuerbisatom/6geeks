@@ -1,17 +1,21 @@
 html{
-    font-family: "Gill Sans";
+   
     margin:0;
     word-wrap: break-word;
+    background-color: #f2f8e9;
 }
 body{
     margin:0;
 }
 .topbar {
+    height: 70px;
+    font-family: "Oswald";
+    margin-bottom: 2%;
     padding-top: 2px;
     padding-bottom: 2px;
-    padding-left: 10px;
+    padding-left: 2%;
     padding-right: 10px;
-    background-color: antiquewhite;
+    background-color: #d4e273;
     display: flex;
     justify-content: space-between;
     overflow: hidden;
@@ -29,29 +33,60 @@ body{
 
 .topbar a:hover {
     border-radius: 25px;
-    background-color: darksalmon;
+    background-color: #6b964a;
     color: black;
 }
 
 .topbar a.active {
     border-radius: 25px;
-    background-color: brown;
+    background-color: #2d5c2e;
     color: white;
 }
 
+.logo{
+    width:70px;  
+}
+
 h1{
+    color: #2d5c2e;
+    font-family: "Oswald";
     padding-left: 10px;
 }
 
+h2{
+    font-family: "Oswald";
+}
+
+p{
+   font-family: "Fira Sans"; 
+}
+
 .introtext{
+    font-family: "Fira Sans";
     font-size:20px;
     padding-left: 50px;
     width:70%;
 }
+
+.deli { 
+    font-family: "Fira Sans";
+    padding: 5px;
+    margin: 20px;
+    font-size: 20px;
+    background-color: #6b964a;
+    text-align: center;
+    border-radius: 25px;
+}
+
+.deli:hover {
+    background-color: #b9d658;
+}
+
+
 .table{
     float: center;
 }
-.column {
+.column{
     float: left;
     width: 30%;
     margin-bottom: 16px;
@@ -63,6 +98,7 @@ h1{
 
 /* Add some shadows to create a card effect */
 .card {
+    background-color: #d4e273;
     padding: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
