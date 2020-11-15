@@ -1,7 +1,8 @@
-import 'package:co2_tracker/Screens/placeholder.dart';
+import 'package:co2_tracker/screens/placeholder.dart';
+import 'package:co2_tracker/screens/tips.dart';
+import 'package:co2_tracker/screens/tracking.dart';
+import 'package:co2_tracker/screens/dashboard.dart';
 import 'package:flutter/material.dart';
-
-
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -29,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static List<Widget> _children= [
     DashboardWidget(),
     TrackingList(),
-    PlaceholderWidget("Tips"),
+    TipsList(),
     PlaceholderWidget("Community"),
     PlaceholderWidget("Profile"),
   ];

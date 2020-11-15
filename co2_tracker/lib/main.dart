@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:co2_tracker/Screens/home_screen.dart';
+import 'package:co2_tracker/screens/home_screen.dart';
 
 
 void main() {
