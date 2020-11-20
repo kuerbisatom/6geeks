@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
@@ -65,24 +66,39 @@ class _DashboardWidgetState extends State<DashboardWidget>{
       ),
     ];
   }
+  /// Create series list with multiple series
+  static List<charts.Series<OrdinalSales, String>> _createSampleData_Stacked() {
+    final desktopSalesData = [
+      new OrdinalSales('2017', 75),
+    ];
 
-  static List<charts.Series<LinearSales, int>> _createSampleData_Pie() {
-    final data = [
-      new LinearSales(0, 100),
-      new LinearSales(1, 75),
-      new LinearSales(2, 25),
-      new LinearSales(3, 5),
+    final tableSalesData = [
+      new OrdinalSales('2017', 20),
+    ];
+
+    final mobileSalesData = [
+      new OrdinalSales('2017', 45),
     ];
 
     return [
-      new charts.Series<LinearSales, int>(
-        id: 'Sales',
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
-        data: data,
-        // Set a label accessor to control the text of the arc label.
-        labelAccessorFn: (LinearSales row, _) => '${row.year}: ${row.sales}',
-      )
+      new charts.Series<OrdinalSales, String>(
+        id: 'Desktop',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: desktopSalesData,
+      ),
+      new charts.Series<OrdinalSales, String>(
+        id: 'Tablet',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: tableSalesData,
+      ),
+      new charts.Series<OrdinalSales, String>(
+        id: 'Mobile',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: mobileSalesData,
+      ),
     ];
   }
 
@@ -91,21 +107,16 @@ class _DashboardWidgetState extends State<DashboardWidget>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("Row1"),
-                Container(
-                    height: 200,
-                    width: 200,
-                    child:
-                    new PieOutsideLabelChart(
-                    _createSampleData_Pie(),
-                    // Disable animations for image tests.
-                    animate: false,
-                  ),
-                ),
-              ],
+            Container(
+              child: Text("Row1"),
+            ),
+            Container(
+              height: 75,
+              child: StackedHorizontalBarChart(  /// Creates a stacked [BarChart] with sample data and no transition.
+                 _createSampleData_Stacked(),
+
+                  animate: false,
+                  )
             ),
             Container(
                 height: 200,
@@ -127,33 +138,13 @@ class LinearSales {
 
   LinearSales(this.year, this.sales);
 }
-class PieOutsideLabelChart extends StatelessWidget {
-  final List<charts.Series> seriesList;
-  final bool animate;
 
-  PieOutsideLabelChart(this.seriesList, {this.animate});
+class OrdinalSales {
+  final String year;
+  final int sales;
 
-  @override
-  Widget build(BuildContext context) {
-    return new charts.PieChart(seriesList,
-        animate: animate,
-        // Add an [ArcLabelDecorator] configured to render labels outside of the
-        // arc with a leader line.
-        //
-        // Text style for inside / outside can be controlled independently by
-        // setting [insideLabelStyleSpec] and [outsideLabelStyleSpec].
-        //
-        // Example configuring different styles for inside/outside:
-        //       new charts.ArcLabelDecorator(
-        //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
-        //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
-        defaultRenderer: new charts.ArcRendererConfig(arcRendererDecorators: [
-          new charts.ArcLabelDecorator(
-              labelPosition: charts.ArcLabelPosition.outside)
-        ]));
-  }
+  OrdinalSales(this.year, this.sales);
 }
-
 
 class StackedAreaCustomColorLineChart extends StatelessWidget {
   final List<charts.Series> seriesList;
@@ -168,11 +159,34 @@ class StackedAreaCustomColorLineChart extends StatelessWidget {
         new charts.LineRendererConfig(includeArea: true, stacked: true),
         animate: animate);
   }
-
-  /// Create one series with sample hard coded data.
-
 }
 
-/// Sample linear data type.
 
+class StackedHorizontalBarChart extends StatelessWidget {
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+  StackedHorizontalBarChart(this.seriesList, {this.animate});
+
+  @override
+  Widget build(BuildContext context) {
+    // For horizontal bar charts, set the [vertical] flag to false.
+    return new charts.BarChart(
+      seriesList,
+      animate: animate,
+      vertical: false,
+      domainAxis: new charts.OrdinalAxisSpec(renderSpec: new charts.NoneRenderSpec()),
+      defaultRenderer: new charts.BarRendererConfig(
+        cornerStrategy: const charts.ConstCornerStrategy(30),
+        groupingType: charts.BarGroupingType.stacked,
+      ),
+      behaviors: [
+        new charts.PercentInjector(
+            totalType: charts.PercentInjectorTotalType.domain)
+      ],
+      primaryMeasureAxis: new charts.PercentAxisSpec(),
+      barRendererDecorator: new charts.BarLabelDecorator<String>(),
+    );
+  }
+}
 
