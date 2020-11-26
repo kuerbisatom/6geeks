@@ -42,7 +42,11 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   Widget _buildFab(BuildContext context) {
-    final icons = [ Icons.sms, Icons.mail, Icons.phone];
+    final icons = [
+      Icons.commute_outlined,
+      Icons.local_grocery_store_outlined,
+      Icons.local_dining_outlined
+    ];
     return AnchoredOverlay(
       showOverlay: true,
       overlayBuilder: (context, offset) {
@@ -56,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       child: FloatingActionButton(
         onPressed: () {},
-        tooltip: 'Increment',
+        //tooltip: 'Increment',
         child: Icon(Icons.add),
         elevation: 2.0,
       ),

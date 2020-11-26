@@ -39,7 +39,6 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
     Color foregroundColor = Theme.of(context).accentColor;
     return Container(
       height: 70.0,
-      width: 56.0,
       alignment: FractionalOffset.topCenter,
       child: ScaleTransition(
         scale: CurvedAnimation(
@@ -52,7 +51,7 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
         ),
         child: FloatingActionButton(
           backgroundColor: backgroundColor,
-          mini: true,
+          //mini: true,
           child: Icon(widget.icons[index], color: foregroundColor),
           onPressed: () => _onTapped(index),
         ),
@@ -69,7 +68,7 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
           _controller.reverse();
         }
       },
-      tooltip: 'Increment',
+      //tooltip: 'Increment',
       child: Icon(Icons.add),
       elevation: 2.0,
     );
