@@ -5,6 +5,7 @@ import 'package:co2_tracker/screens/dashboard.dart';
 import 'package:co2_tracker/screens/fab_with_icon.dart';
 import 'package:co2_tracker/screens/fab_bottom.dart';
 import 'package:co2_tracker/screens/layout.dart';
+import 'package:co2_tracker/screens/userprofile.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
