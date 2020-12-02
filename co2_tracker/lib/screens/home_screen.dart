@@ -33,7 +33,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
+  static List<Widget> _title = [
+    Text('Home'),Text('Tips'), Text('Profile'), Text('Community')
+  ];
   static List<Widget> _children= [
     DashboardWidget(),
     TipsList(),
@@ -48,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Icons.local_grocery_store_outlined,
       Icons.local_dining_outlined
     ];
+
     return AnchoredOverlay(
       showOverlay: true,
       overlayBuilder: (context, offset) {
@@ -74,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Test",),
+        title: _title[_index_tab],
       ),
       body: Center(
         child: _children[_index_tab]

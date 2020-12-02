@@ -37,6 +37,7 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
   Widget _buildChild(int index) {
     Color backgroundColor = Theme.of(context).cardColor;
     Color foregroundColor = Theme.of(context).accentColor;
+    List<int> col = [0xFFFFECB3, 0xFFB2EBF2, 0xFFDCEDC8];
     return Container(
       height: 70.0,
       alignment: FractionalOffset.topCenter,
@@ -50,9 +51,9 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
           ),
         ),
         child: FloatingActionButton(
-          backgroundColor: backgroundColor,
+          backgroundColor: Color(col[index]),
           //mini: true,
-          child: Icon(widget.icons[index], color: foregroundColor),
+          child: Icon(widget.icons[index], color: Colors.white),
           onPressed: () => _onTapped(index),
         ),
       ),

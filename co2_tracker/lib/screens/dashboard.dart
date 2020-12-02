@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 
 class DashboardWidget extends StatefulWidget {
@@ -9,59 +11,59 @@ class DashboardWidget extends StatefulWidget {
 }
 
 class _DashboardWidgetState extends State<DashboardWidget>{
-  static List<charts.Series<LinearSales, int>> _createSampleData() {
+  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
     final myFakeDesktopData = [
-      new LinearSales(0, 5),
-      new LinearSales(1, 25),
-      new LinearSales(2, 100),
-      new LinearSales(3, 75),
+      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
+      new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
+      new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
+      new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
     ];
 
     var myFakeTabletData = [
-      new LinearSales(0, 10),
-      new LinearSales(1, 50),
-      new LinearSales(2, 200),
-      new LinearSales(3, 150),
+      new TimeSeriesSales(new DateTime(2017, 9, 19), 10),
+      new TimeSeriesSales(new DateTime(2017, 9, 26), 5),
+      new TimeSeriesSales(new DateTime(2017, 10, 3), 20),
+      new TimeSeriesSales(new DateTime(2017, 10, 10), 150),
     ];
 
     var myFakeMobileData = [
-      new LinearSales(0, 15),
-      new LinearSales(1, 75),
-      new LinearSales(2, 300),
-      new LinearSales(3, 225),
+      new TimeSeriesSales(new DateTime(2017, 9, 19), 23),
+      new TimeSeriesSales(new DateTime(2017, 9, 26), 12),
+      new TimeSeriesSales(new DateTime(2017, 10, 3), 123),
+      new TimeSeriesSales(new DateTime(2017, 10, 10), 123),
     ];
 
     return [
-      new charts.Series<LinearSales, int>(
-        id: 'Desktop',
+      new charts.Series<TimeSeriesSales, DateTime>(
+        id: 'Food',
         // colorFn specifies that the line will be blue.
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFDCEDC8)),
         // areaColorFn specifies that the area skirt will be light blue.
         areaColorFn: (_, __) =>
-        charts.MaterialPalette.blue.shadeDefault.lighter,
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
+            charts.ColorUtil.fromDartColor(brighten(Color(0xFFDCEDC8),50)),
+        domainFn: (TimeSeriesSales sales, _) => sales.time,
+        measureFn: (TimeSeriesSales sales, _) => sales.sales,
         data: myFakeDesktopData,
       ),
-      new charts.Series<LinearSales, int>(
-        id: 'Tablet',
+      new charts.Series<TimeSeriesSales, DateTime>(
+        id: 'Grocery',
         // colorFn specifies that the line will be red.
-        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFB2EBF2)),
         // areaColorFn specifies that the area skirt will be light red.
-        areaColorFn: (_, __) => charts.MaterialPalette.red.shadeDefault.lighter,
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
+        areaColorFn: (_, __) => charts.ColorUtil.fromDartColor(brighten(Color(0xFFB2EBF2),50)),
+        domainFn: (TimeSeriesSales sales, _) => sales.time,
+        measureFn: (TimeSeriesSales sales, _) => sales.sales,
         data: myFakeTabletData,
       ),
-      new charts.Series<LinearSales, int>(
-        id: 'Mobile',
+      new charts.Series<TimeSeriesSales, DateTime>(
+        id: 'Transport',
         // colorFn specifies that the line will be green.
-        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFFFECB3)),
         // areaColorFn specifies that the area skirt will be light green.
         areaColorFn: (_, __) =>
-        charts.MaterialPalette.green.shadeDefault.lighter,
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
+            charts.ColorUtil.fromDartColor(brighten(Color(0xFFFFECB3),50)),
+        domainFn: (TimeSeriesSales sales, _) => sales.time,
+        measureFn: (TimeSeriesSales sales, _) => sales.sales,
         data: myFakeMobileData,
       ),
     ];
@@ -82,25 +84,31 @@ class _DashboardWidgetState extends State<DashboardWidget>{
 
     return [
       new charts.Series<OrdinalSales, String>(
-        id: 'Desktop',
+        id: 'Food',
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFDCEDC8)),
+
         domainFn: (OrdinalSales sales, _) => sales.year,
         measureFn: (OrdinalSales sales, _) => sales.sales,
         data: desktopSalesData,
       ),
       new charts.Series<OrdinalSales, String>(
-        id: 'Tablet',
+        id: 'Grocery',
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFB2EBF2)),
         domainFn: (OrdinalSales sales, _) => sales.year,
         measureFn: (OrdinalSales sales, _) => sales.sales,
         data: tableSalesData,
       ),
       new charts.Series<OrdinalSales, String>(
-        id: 'Mobile',
+        id: 'Transport',
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFFFECB3)),
         domainFn: (OrdinalSales sales, _) => sales.year,
         measureFn: (OrdinalSales sales, _) => sales.sales,
         data: mobileSalesData,
       ),
     ];
   }
+  List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  List<bool> _selections = List.generate(3, (_) => false);
 
   Widget build(BuildContext context) {
     return Container(
@@ -108,35 +116,92 @@ class _DashboardWidgetState extends State<DashboardWidget>{
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-              child: Text("Row1"),
+              child: Column(
+              children: [
+                Text("Welcome Back",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+                Text(days[DateTime.now().weekday - 1] + " " + DateTime.now().day.toString() + "/" + DateTime.now().month.toString() + "/" + DateTime.now().year.toString()),
+              ]),
             ),
             Container(
-              height: 75,
-              child: StackedHorizontalBarChart(  /// Creates a stacked [BarChart] with sample data and no transition.
-                 _createSampleData_Stacked(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 100,
+                    width: 100,
 
-                  animate: false,
+                    child: FaIcon(FontAwesomeIcons.cat,size: 80,),
+                  ),
+                  Container(
+                    width: 200,
+                    child: Column(
+                        children: <Widget>[
+                          Text("Your daily CO2-Emission is about as the same weight as a cat:"),
+                          Text("5kg", style: TextStyle(fontWeight: FontWeight.bold),)
+                        ] 
                   )
-            ),
-            Container(
-                height: 200,
-                child: StackedAreaCustomColorLineChart(
-                  _createSampleData(),
-              // Disable animations for image tests.
-              animate: false,
+                  )
+                ],
+
               )
-            )
+            ),
+            Divider(color: Colors.black12),
+            Container(
+              height: 100,
+              child: Column(
+                children: [
+                  Text("Distribution",style: TextStyle(fontWeight: FontWeight.bold),),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0,right: 5.0),
+                      child: Container(height: 75,child: StackedHorizontalBarChart(
+                          _createSampleData_Stacked(),
+                          animate: false,
+                      )
+                  )
+                ),
+                ]
+              )),
+            Divider(color: Colors.black12),
+            Container(
+                height: 300,
+                child: Column(
+                    children: [
+                      Text("Progress",style: TextStyle(fontWeight: FontWeight.bold),),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                        child: Container(height: 200,child: StackedAreaCustomColorLineChart(_createSampleData(), animate: false,))
+                      ),
+                      ToggleButtons(
+                        children: [Text("Week"),Text("Month"),Text("Year")],
+                        isSelected: _selections,
+                        onPressed: (int index) {
+                          setState(() {
+                            for (int buttonIndex = 0; buttonIndex < _selections.length; buttonIndex++) {
+                              if (buttonIndex == index) {
+                                _selections[buttonIndex] = true;
+                              } else {
+                                _selections[buttonIndex] = false;
+                              }
+                            }
+                          });
+                        },
+                        renderBorder: true,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ]
+              )
+            ),
           ],
         )
     );
   }
 }
 
-class LinearSales {
-  final int year;
+class TimeSeriesSales {
+  final DateTime time;
   final int sales;
 
-  LinearSales(this.year, this.sales);
+  TimeSeriesSales(this.time, this.sales);
 }
 
 class OrdinalSales {
@@ -154,13 +219,15 @@ class StackedAreaCustomColorLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new charts.LineChart(seriesList,
+    return new charts.TimeSeriesChart(seriesList,
         defaultRenderer:
         new charts.LineRendererConfig(includeArea: true, stacked: true),
-        animate: animate);
+        animate: animate,
+       //behaviors: [new charts.SeriesLegend()],
+        dateTimeFactory: const charts.LocalDateTimeFactory()
+    );
   }
 }
-
 
 class StackedHorizontalBarChart extends StatelessWidget {
   final List<charts.Series> seriesList;
@@ -177,12 +244,13 @@ class StackedHorizontalBarChart extends StatelessWidget {
       vertical: false,
       domainAxis: new charts.OrdinalAxisSpec(renderSpec: new charts.NoneRenderSpec()),
       defaultRenderer: new charts.BarRendererConfig(
-        cornerStrategy: const charts.ConstCornerStrategy(30),
+        //cornerStrategy: const charts.ConstCornerStrategy(30),
         groupingType: charts.BarGroupingType.stacked,
       ),
       behaviors: [
         new charts.PercentInjector(
-            totalType: charts.PercentInjectorTotalType.domain)
+            totalType: charts.PercentInjectorTotalType.domain),
+        new charts.SeriesLegend(),
       ],
       primaryMeasureAxis: new charts.PercentAxisSpec(),
       barRendererDecorator: new charts.BarLabelDecorator<String>(),
@@ -190,3 +258,13 @@ class StackedHorizontalBarChart extends StatelessWidget {
   }
 }
 
+Color brighten(Color c, [int percent = 10]) {
+  assert(1 <= percent && percent <= 100);
+  var p = percent / 100;
+  return Color.fromARGB(
+      c.alpha,
+      c.red + ((255 - c.red) * p).round(),
+      c.green + ((255 - c.green) * p).round(),
+      c.blue + ((255 - c.blue) * p).round()
+  );
+}
