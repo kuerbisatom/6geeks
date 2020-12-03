@@ -1,4 +1,6 @@
+import 'package:co2_tracker/screens/placeholder.dart';
 import 'package:flutter/material.dart';
+import 'package:co2_tracker/screens/food_main.dart';
 
 class TrackingList extends StatefulWidget {
   _TrackingListState createState() => _TrackingListState();
@@ -8,6 +10,11 @@ class _TrackingListState extends State<TrackingList>{
   @override
   Widget build(BuildContext context) {
     final titles = ['Food', 'Shopping', 'Transportation'];
+    List<Widget> _children= [
+      FoodMain(),
+      PlaceholderWidget('Shopping'),
+      PlaceholderWidget('Transportation')
+    ];
 
     final icons = [Icons.local_dining_outlined,
       Icons.local_grocery_store_outlined,
@@ -22,7 +29,10 @@ class _TrackingListState extends State<TrackingList>{
                 title: Text(titles[index]),
                 trailing: IconButton(
                     icon: Icon(Icons.keyboard_arrow_right),
-                    onPressed: null
+                    onPressed: () //TODO: make navigation to tracking pages work
+                    {
+                    Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => _children[index])); }
                 ),
               ),
             );
