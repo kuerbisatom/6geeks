@@ -78,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         centerTitle: true,
         title: _title[_index_tab],

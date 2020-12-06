@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
-import 'package:splashscreen/splashscreen.dart';
+//import 'package:splashscreen/splashscreen.dart';
 
 
 
