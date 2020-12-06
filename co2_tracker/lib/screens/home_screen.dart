@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   static List<Widget> _title = [
-    Text('Home'),Text('Tips'), Text('Profile'), Text('Community'),Text("Food"),Text("Shopping"),Text("Transportation")
+    Text('Home'),Text('Tips'), Text('Profile'), Text('Community'),Text("Transportation"),Text("Grocery"),Text("Food")
   ];
   static List<Widget> _children= [
     DashboardWidget(),
