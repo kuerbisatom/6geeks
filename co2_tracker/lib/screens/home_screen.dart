@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   static List<Widget> _title = [
-    Text('Home'),Text('Tips'), Text('Profile'), Text('Community'),Text("Food"),Text("Shopping"),Text("Transportation")
+    Text('Home'),Text('Tips'), Text('Profile'), Text('Community'),Text("Transportation"),Text("Shopping"),Text("Food")
   ];
   static List<Widget> _children= [
     DashboardWidget(),
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
       child: FloatingActionButton(
-        //onPressed: () {},
+        onPressed: () {},
         //tooltip: 'Increment',
         child: Icon(Icons.add),
         elevation: 2.0,
