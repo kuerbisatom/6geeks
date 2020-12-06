@@ -1,3 +1,4 @@
+import 'package:co2_tracker/screens/food_main.dart';
 import 'package:co2_tracker/screens/placeholder.dart';
 import 'package:co2_tracker/screens/tips.dart';
 import 'package:co2_tracker/screens/tracking.dart';
@@ -19,7 +20,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _index_tab = 0;
-  int _index_fab = 0;
+  //int _index_fab = 0;
 
   void _selectedTab(int index) {
     setState(() {
@@ -29,19 +30,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _selectedFab(int index) {
     setState(() {
-      _index_fab = index;
+      _index_tab = index + 4;
     });
   }
 
   static List<Widget> _title = [
-    Text('Home'),Text('Tips'), Text('Profile'), Text('Community')
+    Text('Home'),Text('Tips'), Text('Profile'), Text('Community'),Text("Food"),Text("Shopping"),Text("Transportation")
   ];
   static List<Widget> _children= [
     DashboardWidget(),
     TipsList(),
     UserProfile(),
     PlaceholderWidget("Community"),
-    TrackingList(),
+    PlaceholderWidget("Transportation"),
+    PlaceholderWidget("Shopping"),
+    FoodMain(),
   ];
 
   Widget _buildFab(BuildContext context) {
@@ -63,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
       child: FloatingActionButton(
-        onPressed: () {},
+        //onPressed: () {},
         //tooltip: 'Increment',
         child: Icon(Icons.add),
         elevation: 2.0,
