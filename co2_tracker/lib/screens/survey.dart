@@ -18,7 +18,25 @@ class SurveyState extends State<Survey> {
   bool checkboxValue8 = false;
   bool checkboxValue9 = false;
   bool checkboxValue10 = false;
+  int radioValue1 = 0;
+  int radioValue2 = 0;
+  int radioValue3 = 0;
 
+  void handleRadioValueChanged1(int value){
+    setState(() {
+      radioValue1 = value;
+    });
+  }
+  void handleRadioValueChanged2(int value){
+    setState(() {
+      radioValue2 = value;
+    });
+  }
+  void handleRadioValueChanged3(int value){
+    setState(() {
+      radioValue3 = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +45,8 @@ class SurveyState extends State<Survey> {
     const sizedBoxSpace2 =  SizedBox(height: 32);
     const sizedBoxSpaceWidth2 = SizedBox(width: 50);
     const sizedBoxSpaceWidth1 = SizedBox(width: 20);
+    const sizedBoxSpaceWidth3 = SizedBox(width: 110);
+    const sizedBoxSpaceWidth4 = SizedBox(width: 130);
 
 
     return new Scaffold(
@@ -255,6 +275,8 @@ class SurveyState extends State<Survey> {
                     Container(
                       child: Row(
                         children: [
+                          sizedBoxSpaceWidth3,
+
 
                           new Container(
                             child: Column(
@@ -262,6 +284,8 @@ class SurveyState extends State<Survey> {
                                 for(int index = 0 ; index < 4; ++index)
                                   new Radio(
                                     value: index,
+                                    groupValue: radioValue1,
+                                    onChanged: handleRadioValueChanged1,
                                   ),
                               ],
                             ),
@@ -269,6 +293,7 @@ class SurveyState extends State<Survey> {
                           new Container(
                             child: Column(
                               children: [
+                                sizedBoxSpace2,
 
                                 new Text("Very Often",
                                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -303,9 +328,50 @@ class SurveyState extends State<Survey> {
                       textScaleFactor: 1.3,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText:"Insert number",
+
+                    Container(
+                      child: Row(
+                        children: [
+                          sizedBoxSpaceWidth3,
+
+                          new Container(
+                            child: Column(
+                              children: [
+                                for(int index = 0 ; index < 3; ++index)
+                                  new Radio(
+                                    value: index,
+                                    groupValue: radioValue2,
+                                    onChanged: handleRadioValueChanged2,
+                                  ),
+                              ],
+                            ),
+                          ),
+                          new Container(
+                            child: Column(
+                              children: [
+                                sizedBoxSpace2,
+
+                                new Text("Liquid Fuel",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+
+                                new Text("Gas Fuel",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+
+                                new Text("Electricity",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+
+
+
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
@@ -325,15 +391,49 @@ class SurveyState extends State<Survey> {
                       textScaleFactor: 1.3,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText:"Insert number",
+
+                    Container(
+                      child: Row(
+                        children: [
+                          sizedBoxSpaceWidth4,
+
+
+                          new Container(
+                            child: Column(
+                              children: [
+                                for(int index = 0 ; index < 2; ++index)
+                                  new Radio(
+                                    value: index,
+                                    groupValue: radioValue3,
+                                    onChanged: handleRadioValueChanged3,
+                                  ),
+                                sizedBoxSpaceWidth1,
+                              ],
+                            ),
+                          ),
+                          new Container(
+                            child: Column(
+                              children: [
+                                sizedBoxSpace2,
+
+                                new Text("Yes",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+
+                                new Text("No",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
                     sizedBoxSpace,
                     Container(
-                      margin: EdgeInsets.only(top: 20.0),
                       child: FlatButton(
                         height: 40,
                         child: Text("Get Results",
