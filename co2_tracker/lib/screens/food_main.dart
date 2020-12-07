@@ -28,67 +28,80 @@ class _FoodMainState extends State<FoodMain> {
     listItem("apple",1),listItem("beef",2),listItem("margarita",3),listItem("brie cheese",4)];
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: Center(
+        body: Center(
 
-        child: Column(
-        children: [
-                  Container(
-                    padding: EdgeInsets.all(30.0),
-                    child:  SearchableDropdown.multiple(
-                      items: items.map((item) {
-                        return new DropdownMenuItem<listItem>(
-                            child: Text(item.name), value: item);
-                            }).toList(),
-                            selectedItems: selectedItems,
-                            hint: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Text("Select items",
-                                style: TextStyle(fontSize: 20),),
-                            ),
-                            searchHint: "Select items",
-                            onChanged: (value) {
-                              setState(() {
-                                selectedItems = value;
-                              });
-                            },
-                            closeButton: (selectedItems) {
-                              return (selectedItems.isNotEmpty
-                                  ? "Save ${selectedItems.length == 1 ? '"' + items[selectedItems.first].value.toString() + '"' : '(' + selectedItems.length.toString() + ')'}"
-                                  : "Save without selection");
-                            },
-                            isExpanded: true,
+            child: Column(
+              children: [
+                Row(
+                  children: [Container(
+                    child: Text("Search Item",
+                        style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+                    margin: EdgeInsets.only(left:20, top:20),)],
+                ),
+                Container(
+                  padding: EdgeInsets.only(left:20, right:20),
+                  child:  SearchableDropdown.multiple(
+                    items: items.map((item) {
+                      return new DropdownMenuItem<listItem>(
+                          child: Text(item.name), value: item);
+                    }).toList(),
+                    selectedItems: selectedItems,
+                    hint: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text("Insert item name...",
+                        style: TextStyle(fontSize: 20),),
                     ),
+                    searchHint: "Insert item name...",
+                    onChanged: (value) {
+                      setState(() {
+                        selectedItems = value;
+                      });
+                    },
+                    closeButton: (selectedItems) {
+                      return (selectedItems.isNotEmpty
+                          ? "Save ${selectedItems.length == 1 ? '"' + items[selectedItems.first].value.toString() + '"' : '(' + selectedItems.length.toString() + ')'}"
+                          : "Save without selection");
+                    },
+                    isExpanded: true,
                   ),
-                  Text('Scan Item',
-                  style: TextStyle(fontSize: 20),),
-                  Container(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // TODO: Navigate to Item scanning mock
-                      },
-                      child: Icon(Icons.qr_code_scanner,
+                ),
+                Row(
+                  children: [Container(
+                    child: Text("Scan Item",
+                        style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+                    margin: EdgeInsets.only(left:20, top:20),)],
+                ),
+                Container(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // TODO: Navigate to Item scanning mock
+                    },
+                    child: Icon(Icons.qr_code_scanner,
                       size:60,
-                        ),
                     ),
-                    width: 100,
-                    height: 100,
-                    margin: EdgeInsets.all(20),
                   ),
-                  Container(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
-                          // TODO Navigate home screen and add itens to emissions
-                        },
-                        child: Text('Add All',
-                          style: TextStyle(fontSize: 30),),
-                      ),
-                    padding: EdgeInsets.all(20),
-                    margin: EdgeInsets.only(top:20),
-                  ),
-        ],
+                  width: 90,
+                  height: 90,
+                  margin: EdgeInsets.all(20),
 
-      ))
-      );
+                ),
+                new Container(
+                  margin: EdgeInsets.only(top: 20.0),
+                  child: FlatButton(
+                    height: 40,
+                    child: Text('Add All',
+                        textScaleFactor: 1.4,
+                        style: TextStyle(color: Colors.white)),
+                    padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
+                    color: Color(0xFF66BB64),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
+              ],
+
+            ))
+    );
   }
 }
