@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:co2_tracker/screens/survey.dart';
 
 class UserProfile extends StatefulWidget {
   _UserProfileState createState() => new _UserProfileState();
@@ -39,7 +40,11 @@ class _UserProfileState extends State<UserProfile> {
                       style: TextStyle(color: Colors.white)),
                     padding: EdgeInsets.all(13.0),
                     color: Color(0xFF66BB64),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Survey()),
+                    ); },
                     shape: RoundedRectangleBorder(
                       borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
                 new Padding(padding: EdgeInsets.symmetric(horizontal:10.0),

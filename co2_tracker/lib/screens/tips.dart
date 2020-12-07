@@ -51,7 +51,8 @@ class _TipsListState extends State<TipsList>{
                     style: TextStyle(fontFamily: 'Roboto'),),
                 subtitle: Text(
                     titles2[index],
-                    style: TextStyle(fontFamily: 'Roboto'),),
+                    style: TextStyle(fontFamily: 'Roboto'),
+                    textAlign: TextAlign.justify,),
               ),
               ),
             );

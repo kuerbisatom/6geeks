@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
 //import 'package:splashscreen/splashscreen.dart';
+import 'package:co2_tracker/screens/survey.dart';
 
 
 
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'CO2 - Tracker'),
+      home: Survey(),
     );
   }
 }
