@@ -35,7 +35,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   static List<Widget> _title = [
+<<<<<<< HEAD
+    Text('Home'),Text('Tips'), Text('Profile'), Text('Community'),Text("Transportation"),Text("Grocery"),Text("Food")
+=======
     Text('Home'),Text('Tips'), Text('Profile'), Text('Community'),Text("Transportation"),Text("Shopping"),Text("Food")
+>>>>>>> 5cf1a54ff4ea6edb1d398ae59ddc7caf9975eb7b
   ];
   static List<Widget> _children= [
     DashboardWidget(),
@@ -66,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
       child: FloatingActionButton(
-        //onPressed: () {},
+        onPressed: () {},
         //tooltip: 'Increment',
         child: Icon(Icons.add),
         elevation: 2.0,
@@ -78,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         centerTitle: true,
         title: _title[_index_tab],
