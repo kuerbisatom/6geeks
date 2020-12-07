@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 class FoodMain extends StatefulWidget {
-  _FoodMainState createState() => new _FoodMainState();
+  final int index;
+    FoodMain({Key key, @required this.index}) : super(key: key);
+  State<FoodMain> createState() => _FoodMainState();
 }
 class listItem{
   String name;
@@ -20,7 +22,8 @@ class listItem{
     return _value;
   }
 }
-class _FoodMainState extends State<FoodMain> {
+
+class _FoodMainState extends State<FoodMain>{
   @override
   List<int> selectedItems = [];
 
@@ -28,8 +31,11 @@ class _FoodMainState extends State<FoodMain> {
     listItem("apple",1),listItem("beef",2),listItem("margarita",3),listItem("brie cheese",4)];
   Widget build(BuildContext context) {
     return new Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Food"),
+        ),
         body: Center(
-
             child: Column(
               children: [
                 Row(
@@ -95,13 +101,17 @@ class _FoodMainState extends State<FoodMain> {
                     padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
                     color: Color(0xFF66BB64),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                          (Route <dynamic> route) => false,
+                      );
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
               ],
 
-            ))
+            )),
     );
   }
 }
