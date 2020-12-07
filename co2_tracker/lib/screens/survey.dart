@@ -503,7 +503,6 @@ class SurveyState extends State<Survey> {
                         padding: EdgeInsets.all(13.0),
                         color: Color(0xFF66BB64),
                         onPressed: () {
-                          //_dontShowSurveyagain();
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => Outro()),
@@ -570,13 +569,26 @@ class AfterSplash extends StatelessWidget {
             Center(child: Text("That is less than 98% of the humans", textAlign: TextAlign.center,
               style: new TextStyle(
                   fontSize: 25.0),)),
-            MaterialButton(
-              onPressed: () {},
-              color: Colors.blue,
-              textColor: Colors.white,
-              padding: EdgeInsets.all(16),
-              shape: CircleBorder(),
-            )
+            Center(child: FlatButton(
+              height: 100,
+              child: Text('Start Changing the World',
+                  textScaleFactor: 1.4,
+                  style: TextStyle(color: Colors.white)),
+              padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
+              color: Colors.green,
+              onPressed: () {
+                _dontShowSurveyagain();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                      (Route <dynamic> route) => false,
+                );
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
+            Center(child: Text("You can edit your survey later on your Profile Page", textAlign: TextAlign.center,
+              style: new TextStyle(
+                  fontSize: 15.0),)),
           ]
         )
       ),
