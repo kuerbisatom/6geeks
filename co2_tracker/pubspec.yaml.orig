@@ -34,12 +34,14 @@ dependencies:
 
   font_awesome_flutter: ^8.10.0
 
-<<<<<<< HEAD
-  splashscreen: ^1.3.5
-=======
   searchable_dropdown: ^1.1.3
->>>>>>> 5cf1a54ff4ea6edb1d398ae59ddc7caf9975eb7b
 
+<<<<<<< HEAD
+=======
+  path_provider: ^1.6.24
+
+
+>>>>>>> fe7a4007075419699b15f2ba246ad9d5f99ae721
 dev_dependencies:
   flutter_test:
     sdk: flutter

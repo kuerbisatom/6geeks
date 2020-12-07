@@ -3,9 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:co2_tracker/screens/data_saving.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter/services.dart';
+
 
 class FoodMain extends StatefulWidget {
-  _FoodMainState createState() => new _FoodMainState();
+  final int index;
+    FoodMain({Key key, @required this.index}) : super(key: key);
+  State<FoodMain> createState() => _FoodMainState();
 }
 class listItem{
   String name;
@@ -21,16 +26,31 @@ class listItem{
     return _value;
   }
 }
-class _FoodMainState extends State<FoodMain> {
+
+class _FoodMainState extends State<FoodMain>{
   @override
   List<int> selectedItems = [];
+  String _scanBarcode = 'Unknown';
+
+  void initState() {
+    super.initState();
+  }
+
+  startBarcodeScanStream() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+        "#ff6666", "Cancel", true, ScanMode.BARCODE)
+        .listen((barcode) => print(barcode));
+  }
 
   final List<listItem> items = [
     listItem("apple",1),listItem("beef",2),listItem("margarita",3),listItem("brie cheese",4)];
   Widget build(BuildContext context) {
     return new Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Food"),
+        ),
         body: Center(
-
             child: Column(
               children: [
                 Row(
@@ -70,13 +90,12 @@ class _FoodMainState extends State<FoodMain> {
                   children: [Container(
                     child: Text("Scan Item",
                         style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                    margin: EdgeInsets.only(left:20, top:20),)],
+                    margin: EdgeInsets.only(left:20, top:20),),Text('Scan result : $_scanBarcode\n',
+                      style: TextStyle(fontSize: 20))],
                 ),
                 Container(
                   child: ElevatedButton(
-                    onPressed: () {
-                      // TODO: Navigate to Item scanning mock
-                    },
+                    onPressed: () => startBarcodeScanStream(),
                     child: Icon(Icons.qr_code_scanner,
                       size:60,
                     ),
@@ -96,14 +115,17 @@ class _FoodMainState extends State<FoodMain> {
                     padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
                     color: Color(0xFF66BB64),
                     onPressed: () {
-                      //TODO function to add food: saveEatingData(int value)
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                          (Route <dynamic> route) => false,
+                      );
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
               ],
 
-            ))
+            )),
     );
   }
 }

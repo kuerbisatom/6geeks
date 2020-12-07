@@ -1,6 +1,67 @@
 import 'package:co2_tracker/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart' show DragStartBehavior;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:splashscreen/splashscreen.dart';
+
+class Intro extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.green,
+      body: Padding(
+        padding: EdgeInsets.only(top:30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly, //NOT WORKING!
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Center(
+                child: Text(
+              "CO2-Tracker",
+              style: new TextStyle(fontSize: 30,color: Colors.white),
+            )),
+            Center(child: Image.asset("assets/launcher/logo.png", scale: 2.5)),
+            Center(child: Text("Ready to Start your CO2-Journey?",
+              style: new TextStyle(fontSize: 20,color: Colors.white),),),
+            Center(child: FlatButton(
+              height: 40,
+              child: Text('Find your C02 Baseline',
+                  textScaleFactor: 1.4,
+                  style: TextStyle(color: Colors.green)),
+              padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Survey()),
+                );
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
+          Center(child: FlatButton(
+            height: 40,
+            child: Text('Skip this Step',
+                textScaleFactor: 1.4,
+                style: TextStyle(color: Colors.white)),
+            padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
+            color: Colors.grey,
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+                    (Route <dynamic> route) => false,
+              );
+            },
+            shape: RoundedRectangleBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
+            Center(child: Text("You can edit later on your profile", style: new TextStyle(color: Colors.white),),)
+
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class Survey extends StatefulWidget {
 
@@ -18,7 +79,25 @@ class SurveyState extends State<Survey> {
   bool checkboxValue8 = false;
   bool checkboxValue9 = false;
   bool checkboxValue10 = false;
+  int radioValue1 = 0;
+  int radioValue2 = 0;
+  int radioValue3 = 0;
 
+  void handleRadioValueChanged1(int value){
+    setState(() {
+      radioValue1 = value;
+    });
+  }
+  void handleRadioValueChanged2(int value){
+    setState(() {
+      radioValue2 = value;
+    });
+  }
+  void handleRadioValueChanged3(int value){
+    setState(() {
+      radioValue3 = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +106,8 @@ class SurveyState extends State<Survey> {
     const sizedBoxSpace2 =  SizedBox(height: 32);
     const sizedBoxSpaceWidth2 = SizedBox(width: 50);
     const sizedBoxSpaceWidth1 = SizedBox(width: 20);
+    const sizedBoxSpaceWidth3 = SizedBox(width: 110);
+    const sizedBoxSpaceWidth4 = SizedBox(width: 130);
 
 
     return new Scaffold(
@@ -255,6 +336,8 @@ class SurveyState extends State<Survey> {
                     Container(
                       child: Row(
                         children: [
+                          sizedBoxSpaceWidth3,
+
 
                           new Container(
                             child: Column(
@@ -262,6 +345,8 @@ class SurveyState extends State<Survey> {
                                 for(int index = 0 ; index < 4; ++index)
                                   new Radio(
                                     value: index,
+                                    groupValue: radioValue1,
+                                    onChanged: handleRadioValueChanged1,
                                   ),
                               ],
                             ),
@@ -269,6 +354,7 @@ class SurveyState extends State<Survey> {
                           new Container(
                             child: Column(
                               children: [
+                                sizedBoxSpace2,
 
                                 new Text("Very Often",
                                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -303,9 +389,50 @@ class SurveyState extends State<Survey> {
                       textScaleFactor: 1.3,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText:"Insert number",
+
+                    Container(
+                      child: Row(
+                        children: [
+                          sizedBoxSpaceWidth3,
+
+                          new Container(
+                            child: Column(
+                              children: [
+                                for(int index = 0 ; index < 3; ++index)
+                                  new Radio(
+                                    value: index,
+                                    groupValue: radioValue2,
+                                    onChanged: handleRadioValueChanged2,
+                                  ),
+                              ],
+                            ),
+                          ),
+                          new Container(
+                            child: Column(
+                              children: [
+                                sizedBoxSpace2,
+
+                                new Text("Liquid Fuel",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+
+                                new Text("Gas Fuel",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+
+                                new Text("Electricity",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+
+
+
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
@@ -325,15 +452,49 @@ class SurveyState extends State<Survey> {
                       textScaleFactor: 1.3,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText:"Insert number",
+
+                    Container(
+                      child: Row(
+                        children: [
+                          sizedBoxSpaceWidth4,
+
+
+                          new Container(
+                            child: Column(
+                              children: [
+                                for(int index = 0 ; index < 2; ++index)
+                                  new Radio(
+                                    value: index,
+                                    groupValue: radioValue3,
+                                    onChanged: handleRadioValueChanged3,
+                                  ),
+                                sizedBoxSpaceWidth1,
+                              ],
+                            ),
+                          ),
+                          new Container(
+                            child: Column(
+                              children: [
+                                sizedBoxSpace2,
+
+                                new Text("Yes",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+
+                                new Text("No",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sizedBoxSpace2,
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
                     sizedBoxSpace,
                     Container(
-                      margin: EdgeInsets.only(top: 20.0),
                       child: FlatButton(
                         height: 40,
                         child: Text("Get Results",
@@ -342,9 +503,11 @@ class SurveyState extends State<Survey> {
                         padding: EdgeInsets.all(13.0),
                         color: Color(0xFF66BB64),
                         onPressed: () {
-                          Navigator.push(
+                          //_dontShowSurveyagain();
+                          Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => MyHomePage()),
+                            MaterialPageRoute(builder: (context) => Outro()),
+                              (Route<dynamic> route) => false,
                           ); },
                         shape: RoundedRectangleBorder(
                             borderRadius: const BorderRadius.all(Radius.circular(100.0))
@@ -361,6 +524,69 @@ class SurveyState extends State<Survey> {
     );
 
   }
+}
+
+class Outro extends StatelessWidget{
+
+  Widget build(BuildContext context) {
+    return new SplashScreen(
+        seconds: 3,
+        navigateAfterSeconds: new AfterSplash(),
+        title: new Text('Calculating your Baseline',
+          style: new TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0
+          ),),
+        image: new Image.network('https://i.imgur.com/TyCSG9A.png'),
+        backgroundColor: Colors.white,
+        styleTextUnderTheLoader: new TextStyle(),
+        photoSize: 100.0,
+        onClick: ()=>Text("Keep calm and drink a tea"),
+        loaderColor: Colors.red
+    );
+  }
+}
+
+class AfterSplash extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body: new Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget> [
+            Center(child: Text("Good Job!",
+                style: new TextStyle(
+                    fontSize: 25.0)),
+            ),
+            Center(child: Text("Your daily CO2 Baseline is:",
+                style: new TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25.0),)),
+            Center(child: Text("10kg:",
+              style: new TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30.0),)),
+            Center(child: Text("That is less than 98% of the humans", textAlign: TextAlign.center,
+              style: new TextStyle(
+                  fontSize: 25.0),)),
+            MaterialButton(
+              onPressed: () {},
+              color: Colors.blue,
+              textColor: Colors.white,
+              padding: EdgeInsets.all(16),
+              shape: CircleBorder(),
+            )
+          ]
+        )
+      ),
+    );
+  }
+}
+
+_dontShowSurveyagain() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('showSurvey', false);
 }
 
 

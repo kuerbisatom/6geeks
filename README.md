@@ -1,7 +1,9 @@
 # 6geeks
-Project UCD
+Project UCD - CO2-Tracker
 
-## Ressources
-https://www.materialpalette.com/green/cyan
-https://material.io/design/color/the-color-system.html#color-usage-and-palettes
-https://flutter.dev/docs/reference/tutorials
+## Building the App
+Install Flutter/Dart/Android-Toolchain
+
+Fork the Code
+
+run `<flutter build apk> ` in the co2-tracker directory

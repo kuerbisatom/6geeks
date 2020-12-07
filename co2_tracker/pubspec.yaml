@@ -38,6 +38,10 @@ dependencies:
 
   path_provider: ^1.6.24
 
+  shared_preferences: ^0.5.12+4
+
+  flutter_barcode_scanner: ^1.0.1
+
 
 dev_dependencies:
   flutter_test:
