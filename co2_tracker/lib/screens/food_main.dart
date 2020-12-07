@@ -2,6 +2,7 @@ import 'package:co2_tracker/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
+import 'package:co2_tracker/screens/data_saving.dart';
 
 class FoodMain extends StatefulWidget {
   _FoodMainState createState() => new _FoodMainState();
@@ -95,6 +96,7 @@ class _FoodMainState extends State<FoodMain> {
                     padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
                     color: Color(0xFF66BB64),
                     onPressed: () {
+                      //TODO function to add food: saveEatingData(int value)
                       Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
                     },
                     shape: RoundedRectangleBorder(

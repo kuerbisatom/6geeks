@@ -1,10 +1,11 @@
-import 'package:co2_tracker/screens/jsontest.dart';
+import 'package:co2_tracker/screens/data_saving.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'dart:convert';
 
 class DashboardWidget extends StatefulWidget {
   @override
@@ -12,75 +13,96 @@ class DashboardWidget extends StatefulWidget {
 }
 
 class _DashboardWidgetState extends State<DashboardWidget>{
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
-    List<TimeSeriesSales> myFakeDesktopData = getListTransportData();/*[
-      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
-      new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
-      new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
-      new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
+
+  void initState() {
+    super.initState();
+    getApplicationDocumentsDirectory().then((Directory directory) {
+      dir = directory;
+      transportFile = new File(dir.path + '/' + t_filename);
+      if (fileExists(transportFile)) this.setState(() {
+        transportContent = jsonDecode(transportFile.readAsStringSync()).toString();
+      });
+      shoppingFile = new File(dir.path + '/' + s_filename);
+      if (fileExists(shoppingFile)) this.setState(() {
+        shoppingContent = jsonDecode(shoppingFile.readAsStringSync()).toString();
+      });
+      eatingFile = new File(dir.path + '/' + e_filename);
+      if (fileExists(eatingFile)) this.setState(() {
+        eatingContent = jsonDecode(eatingFile.readAsStringSync()).toString();
+      });
+    });
+  }
+
+
+  static List<charts.Series<EmissionData, DateTime>> _createSampleData() {
+    List<EmissionData> transportData = getListTransportData();/*[
+      new EmissionData(new DateTime(2017, 9, 19), 5),
+      new EmissionData(new DateTime(2017, 9, 26), 25),
+      new EmissionData(new DateTime(2017, 10, 3), 100),
+      new EmissionData(new DateTime(2017, 10, 10), 75),
     ];*/
 
-    List<TimeSeriesSales> myFakeTabletData = getListShoppingData();/*[
-      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
-      new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
-      new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
-      new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
+    List<EmissionData> shoppingData = getListShoppingData();/*[
+      new EmissionData(new DateTime(2017, 9, 19), 5),
+      new EmissionData(new DateTime(2017, 9, 26), 25),
+      new EmissionData(new DateTime(2017, 10, 3), 100),
+      new EmissionData(new DateTime(2017, 10, 10), 75),
     ];*/
 
-    List<TimeSeriesSales> myFakeMobileData = getListEatingData();/*[
-      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
-      new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
-      new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
-      new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
+    List<EmissionData> eatingData = getListEatingData();/*[
+      new EmissionData(new DateTime(2017, 9, 19), 5),
+      new EmissionData(new DateTime(2017, 9, 26), 25),
+      new EmissionData(new DateTime(2017, 10, 3), 100),
+      new EmissionData(new DateTime(2017, 10, 10), 75),
     ];*/
 
     return [
-      new charts.Series<TimeSeriesSales, DateTime>(
+      new charts.Series<EmissionData, DateTime>(
         id: 'Food',
         // colorFn specifies that the line will be blue.
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFDCEDC8)),
         // areaColorFn specifies that the area skirt will be light blue.
         areaColorFn: (_, __) =>
             charts.ColorUtil.fromDartColor(brighten(Color(0xFFDCEDC8),50)),
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
-        data: myFakeDesktopData,
+        domainFn: (EmissionData emission, _) => emission.time,
+        measureFn: (EmissionData emission, _) => emission.emission,
+        data: transportData,
       ),
-      new charts.Series<TimeSeriesSales, DateTime>(
+      new charts.Series<EmissionData, DateTime>(
         id: 'Grocery',
         // colorFn specifies that the line will be red.
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFB2EBF2)),
         // areaColorFn specifies that the area skirt will be light red.
         areaColorFn: (_, __) => charts.ColorUtil.fromDartColor(brighten(Color(0xFFB2EBF2),50)),
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
-        data: myFakeTabletData,
+        domainFn: (EmissionData emission, _) => emission.time,
+        measureFn: (EmissionData emission, _) => emission.emission,
+        data: shoppingData,
       ),
-      new charts.Series<TimeSeriesSales, DateTime>(
+      new charts.Series<EmissionData, DateTime>(
         id: 'Transport',
         // colorFn specifies that the line will be green.
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFFFECB3)),
         // areaColorFn specifies that the area skirt will be light green.
         areaColorFn: (_, __) =>
             charts.ColorUtil.fromDartColor(brighten(Color(0xFFFFECB3),50)),
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
-        data: myFakeMobileData,
+        domainFn: (EmissionData emission, _) => emission.time,
+        measureFn: (EmissionData emission, _) => emission.emission,
+        data: eatingData,
       ),
     ];
   }
   /// Create series list with multiple series
   static List<charts.Series<OrdinalSales, String>> _createSampleData_Stacked() {
-    final desktopSalesData = [
-      new OrdinalSales('2017', 75),
+    final transportOrdinalData = [
+      new OrdinalSales('2017', getTotalTransportValue()),
     ];
 
-    final tableSalesData = [
-      new OrdinalSales('2017', 20),
+    final shoppingOrdinalData = [
+      new OrdinalSales('2017', getTotalShoppingValue()),
     ];
 
-    final mobileSalesData = [
-      new OrdinalSales('2017', 45),
+    final eatingOrdinalData = [
+      new OrdinalSales('2017', getTotalEatingValue()),
     ];
 
     return [
@@ -88,23 +110,23 @@ class _DashboardWidgetState extends State<DashboardWidget>{
         id: 'Food',
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFDCEDC8)),
 
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: desktopSalesData,
+        domainFn: (OrdinalSales emission, _) => emission.year,
+        measureFn: (OrdinalSales emission, _) => emission.emission,
+        data: transportOrdinalData,
       ),
       new charts.Series<OrdinalSales, String>(
         id: 'Grocery',
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFB2EBF2)),
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: tableSalesData,
+        domainFn: (OrdinalSales emission, _) => emission.year,
+        measureFn: (OrdinalSales emission, _) => emission.emission,
+        data: shoppingOrdinalData,
       ),
       new charts.Series<OrdinalSales, String>(
         id: 'Transport',
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFFFECB3)),
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: mobileSalesData,
+        domainFn: (OrdinalSales emission, _) => emission.year,
+        measureFn: (OrdinalSales emission, _) => emission.emission,
+        data: eatingOrdinalData,
       ),
     ];
   }
@@ -198,23 +220,28 @@ class _DashboardWidgetState extends State<DashboardWidget>{
   }
 }
 
-class TimeSeriesSales {
+class EmissionData {
   DateTime time;
-  int sales;
+  int emission;
 
-  TimeSeriesSales(String dt, String co2) {
+  EmissionData(String dt, String co2) {
     time = DateTime.parse(dt);
-    sales = int.tryParse(co2);
+    emission = int.tryParse(co2);
 
-    print('$time, $sales');
+    print('$time, $emission');
   }
+  void settime(DateTime newtime) { this.time=newtime; }
+  void setemission(int newemission) { this.emission=newemission; }
+
+  DateTime gettime() { return this.time; }
+  int getemission() { return this.emission; }
 }
 
 class OrdinalSales {
   final String year;
-  final int sales;
+  final int emission;
 
-  OrdinalSales(this.year, this.sales);
+  OrdinalSales(this.year, this.emission);
 }
 
 class StackedAreaCustomColorLineChart extends StatelessWidget {
