@@ -12,7 +12,7 @@ import 'package:co2_tracker/screens/dashboard.dart';
 
 Directory dir;
 
-String t_filename = 'transporte.json';
+String t_filename = 'transport.json';
 File transportFile;
 String transportContent;
 
@@ -236,6 +236,18 @@ void saveData(File jsonFile, String filename, String fileContent, dynamic value)
   String date = shortdt.toString();
   print(date);
   Map<String, dynamic> content = { 'date': date, 'co2': value};
+
+  //dummy data
+  String value1 = (int.tryParse(value)+10).toString();
+  String value2 = (int.tryParse(value)+18).toString();
+  String value3 = (int.tryParse(value)+20).toString();
+  String value4 = (int.tryParse(value)+17).toString();
+
+  Map<String, dynamic> content1 = { 'date': new DateTime(dt.year, dt.month, dt.day-1).toString(), 'co2': value1};
+  Map<String, dynamic> content2 = { 'date': new DateTime(dt.year, dt.month, dt.day-2).toString(), 'co2': value2};
+  Map<String, dynamic> content3 = { 'date': new DateTime(dt.year, dt.month, dt.day-3).toString(), 'co2': value3};
+  Map<String, dynamic> content4 = { 'date': new DateTime(dt.year, dt.month, dt.day-4).toString(), 'co2': value4};
+
   if (fileExists(jsonFile)) {
     List<Element> els = listFromJson(jsonFile.readAsStringSync());
     Element last = els.last;
@@ -257,6 +269,13 @@ void saveData(File jsonFile, String filename, String fileContent, dynamic value)
 
     List<Element> els = new List<Element>();
     els.add(Element.fromJson(content));
+
+    //dummy data
+    els.add(Element.fromJson(content1));
+    els.add(Element.fromJson(content2));
+    els.add(Element.fromJson(content3));
+    els.add(Element.fromJson(content4));
+
     String newContent = listToJson(els);
     print (newContent);
     jsonFile.writeAsStringSync(newContent);

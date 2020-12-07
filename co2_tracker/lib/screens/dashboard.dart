@@ -37,25 +37,28 @@ class _DashboardWidgetState extends State<DashboardWidget>{
 
 
   static List<charts.Series<EmissionData, DateTime>> _createSampleData() {
-    List<EmissionData> transportData = getListTransportData();/*[
-      new EmissionData(new DateTime(2017, 9, 19), 5),
-      new EmissionData(new DateTime(2017, 9, 26), 25),
-      new EmissionData(new DateTime(2017, 10, 3), 100),
-      new EmissionData(new DateTime(2017, 10, 10), 75),
+    List<EmissionData> transportData = getListTransportData();
+    /*[
+      new EmissionData(new DateTime(2017, 9, 19).toString(), 5.toString()),
+      new EmissionData(new DateTime(2017, 9, 26).toString(), 25.toString()),
+      new EmissionData(new DateTime(2017, 10, 3).toString(), 100.toString()),
+      new EmissionData(new DateTime(2017, 10, 10).toString(), 75.toString()),
     ];*/
 
-    List<EmissionData> shoppingData = getListShoppingData();/*[
-      new EmissionData(new DateTime(2017, 9, 19), 5),
-      new EmissionData(new DateTime(2017, 9, 26), 25),
-      new EmissionData(new DateTime(2017, 10, 3), 100),
-      new EmissionData(new DateTime(2017, 10, 10), 75),
+    List<EmissionData> shoppingData = getListShoppingData();
+    /*[
+      new EmissionData(new DateTime(2017, 9, 19).toString(), 5.toString()),
+      new EmissionData(new DateTime(2017, 9, 26).toString(), 25.toString()),
+      new EmissionData(new DateTime(2017, 10, 3).toString(), 100.toString()),
+      new EmissionData(new DateTime(2017, 10, 10).toString(), 75.toString()),
     ];*/
 
-    List<EmissionData> eatingData = getListEatingData();/*[
-      new EmissionData(new DateTime(2017, 9, 19), 5),
-      new EmissionData(new DateTime(2017, 9, 26), 25),
-      new EmissionData(new DateTime(2017, 10, 3), 100),
-      new EmissionData(new DateTime(2017, 10, 10), 75),
+    List<EmissionData> eatingData = getListEatingData();
+    /*[
+      new EmissionData(new DateTime(2017, 9, 19).toString(), 5.toString()),
+      new EmissionData(new DateTime(2017, 9, 26).toString(), 25.toString()),
+      new EmissionData(new DateTime(2017, 10, 3).toString(), 100.toString()),
+      new EmissionData(new DateTime(2017, 10, 10).toString(), 75.toString()),
     ];*/
 
     return [

@@ -1,3 +1,4 @@
+import 'package:co2_tracker/screens/data_saving.dart';
 import 'package:co2_tracker/screens/food_main.dart';
 import 'package:co2_tracker/screens/placeholder.dart';
 import 'package:co2_tracker/screens/tips.dart';
@@ -45,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     DashboardWidget(),
     TipsList(),
     UserProfile(),
-    PlaceholderWidget("Community"),
+    DataSaving(),
     PlaceholderWidget("Transportation"),
     PlaceholderWidget("Shopping"),
     FoodMain(),
