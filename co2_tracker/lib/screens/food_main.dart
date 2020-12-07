@@ -59,7 +59,7 @@ class _FoodMainState extends State<FoodMain> {
                     },
                     closeButton: (selectedItems) {
                       return (selectedItems.isNotEmpty
-                          ? "Save ${selectedItems.length == 1 ? '"' + items[selectedItems.first].value.toString() + '"' : '(' + selectedItems.length.toString() + ')'}"
+                          ? 'Save (' + selectedItems.length.toString() + ')'
                           : "Save without selection");
                     },
                     isExpanded: true,
