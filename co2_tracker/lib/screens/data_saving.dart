@@ -12,7 +12,7 @@ import 'package:co2_tracker/screens/dashboard.dart';
 
 Directory dir;
 
-String t_filename = 'transport.json';
+String t_filename = 'transporte.json';
 File transportFile;
 String transportContent;
 
@@ -224,6 +224,7 @@ class DataSavingState extends State<DataSaving> {
 
 void createFile(Map<String, dynamic> content, Directory dir, String filename) {
   print('creating file');
+  print(dir.path + '/' + filename);
   File file = new File(dir.path + '/' + filename);
   file.createSync();
 }
@@ -243,7 +244,9 @@ void saveData(File jsonFile, String filename, String fileContent, dynamic value)
     if (last.date == update.date) {
       update = correctUpdate(last, update);
       els.removeLast();
-    } else { els.add(update); }
+    }
+
+    els.add(update);
 
     String newContent = listToJson(els);
     print (newContent);
@@ -261,7 +264,8 @@ void saveData(File jsonFile, String filename, String fileContent, dynamic value)
 }
 
 Element correctUpdate(Element last, Element update) {
-  update.setco2(last.getco2() + update.getco2());
+  int newvalue = int.tryParse(last.getco2()) + int.tryParse(update.getco2());
+  update.setco2(newvalue.toString());
   return update;
 }
 
