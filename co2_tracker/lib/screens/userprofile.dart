@@ -42,6 +42,7 @@ class _UserProfileState extends State<UserProfile> {
                     padding: EdgeInsets.all(13.0),
                     color: Color(0xFF66BB64),
                     onPressed: () {
+                      // Set state "overlay = false; from another class)
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Survey()),

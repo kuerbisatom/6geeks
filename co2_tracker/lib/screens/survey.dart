@@ -1,6 +1,68 @@
 import 'package:co2_tracker/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart' show DragStartBehavior;
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+class Intro extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.green,
+      body: Padding(
+        padding: EdgeInsets.only(top:30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly, //NOT WORKING!
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Center(
+                child: Text(
+              "CO2-Tracker",
+              style: new TextStyle(fontSize: 30,color: Colors.white),
+            )),
+            Center(child: Image.asset("assets/launcher/logo.png", scale: 2.5)),
+            Center(child: Text("Ready to Start your CO2-Journey?",
+              style: new TextStyle(fontSize: 20,color: Colors.white),),),
+            Center(child: FlatButton(
+              height: 40,
+              child: Text('Find your C02 Baseline',
+                  textScaleFactor: 1.4,
+                  style: TextStyle(color: Colors.green)),
+              padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Survey()),
+                );
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
+          Center(child: FlatButton(
+            height: 40,
+            child: Text('Skip this Step',
+                textScaleFactor: 1.4,
+                style: TextStyle(color: Colors.white)),
+            padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
+            color: Colors.grey,
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+                    (Route <dynamic> route) => false,
+              );
+            },
+            shape: RoundedRectangleBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
+            Center(child: Text("You can edit later on your profile"),)
+
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class Survey extends StatefulWidget {
 
@@ -442,6 +504,7 @@ class SurveyState extends State<Survey> {
                         padding: EdgeInsets.all(13.0),
                         color: Color(0xFF66BB64),
                         onPressed: () {
+                          _dontShowSurveyagain();
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => MyHomePage()),
@@ -462,6 +525,11 @@ class SurveyState extends State<Survey> {
     );
 
   }
+}
+
+_dontShowSurveyagain() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('showSurvey', false);
 }
 
 
