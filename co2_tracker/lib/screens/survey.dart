@@ -342,9 +342,10 @@ class SurveyState extends State<Survey> {
                         padding: EdgeInsets.all(13.0),
                         color: Color(0xFF66BB64),
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => MyHomePage()),
+                              (Route<dynamic> route) => false,
                           ); },
                         shape: RoundedRectangleBorder(
                             borderRadius: const BorderRadius.all(Radius.circular(100.0))

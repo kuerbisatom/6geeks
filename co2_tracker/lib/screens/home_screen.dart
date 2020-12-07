@@ -1,7 +1,6 @@
 import 'package:co2_tracker/screens/food_main.dart';
 import 'package:co2_tracker/screens/placeholder.dart';
 import 'package:co2_tracker/screens/tips.dart';
-import 'package:co2_tracker/screens/tracking.dart';
 import 'package:co2_tracker/screens/dashboard.dart';
 import 'package:co2_tracker/screens/fab_with_icon.dart';
 import 'package:co2_tracker/screens/fab_bottom.dart';
@@ -21,6 +20,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _index_tab = 0;
   //int _index_fab = 0;
+  bool currentOverlay = true;
 
   void _selectedTab(int index) {
     setState(() {
@@ -30,7 +30,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _selectedFab(int index) {
     setState(() {
-      _index_tab = index + 4;
+      currentOverlay = false;
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FoodMain(index: index,)),
+      );
     });
   }
 
@@ -55,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return AnchoredOverlay(
-      showOverlay: true,
+      showOverlay: currentOverlay,
       overlayBuilder: (context, offset) {
         return CenterAbout(
           position: Offset(offset.dx, offset.dy - icons.length * 35.0),
@@ -66,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
       child: FloatingActionButton(
-        //onPressed: () {},
+        onPressed: () {},
         //tooltip: 'Increment',
         child: Icon(Icons.add),
         elevation: 2.0,

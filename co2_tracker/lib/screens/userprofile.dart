@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:co2_tracker/screens/survey.dart';
+import 'package:co2_tracker/screens/home_screen.dart';
 
 class UserProfile extends StatefulWidget {
   _UserProfileState createState() => new _UserProfileState();

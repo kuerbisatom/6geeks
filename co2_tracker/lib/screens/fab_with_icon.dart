@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // https://stackoverflow.com/questions/46480221/flutter-floating-action-button-with-speed-dail
 class FabWithIcons extends StatefulWidget {
-  FabWithIcons({this.icons, this.onIconTapped});
+  FabWithIcons({this.icons, this.onIconTapped,});
   final List<IconData> icons;
   ValueChanged<int> onIconTapped;
   @override
@@ -29,7 +29,7 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
       children: List.generate(widget.icons.length, (int index) {
         return _buildChild(index);
       }).toList()..add(
-        _buildFab(),
+        _buildFab()
       ),
     );
   }
@@ -70,7 +70,7 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
         }
       },
       //tooltip: 'Increment',
-      child: Icon(Icons.add),
+      child: new Icon(_controller.isDismissed ? Icons.add : Icons.keyboard_arrow_down),
       elevation: 2.0,
     );
   }
