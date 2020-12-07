@@ -1,9 +1,8 @@
 import 'package:co2_tracker/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart' show DragStartBehavior;
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:splashscreen/splashscreen.dart';
 
 class Intro extends StatelessWidget {
   @override
@@ -55,7 +54,7 @@ class Intro extends StatelessWidget {
             },
             shape: RoundedRectangleBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
-            Center(child: Text("You can edit later on your profile"),)
+            Center(child: Text("You can edit later on your profile", style: new TextStyle(color: Colors.white),),)
 
           ],
         ),
@@ -404,10 +403,10 @@ class SurveyState extends State<Survey> {
                         padding: EdgeInsets.all(13.0),
                         color: Color(0xFF66BB64),
                         onPressed: () {
-                          _dontShowSurveyagain();
+                          //_dontShowSurveyagain();
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => MyHomePage()),
+                            MaterialPageRoute(builder: (context) => Outro()),
                               (Route<dynamic> route) => false,
                           ); },
                         shape: RoundedRectangleBorder(
@@ -424,6 +423,64 @@ class SurveyState extends State<Survey> {
       ),
     );
 
+  }
+}
+
+class Outro extends StatelessWidget{
+
+  Widget build(BuildContext context) {
+    return new SplashScreen(
+        seconds: 3,
+        navigateAfterSeconds: new AfterSplash(),
+        title: new Text('Calculating your Baseline',
+          style: new TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0
+          ),),
+        image: new Image.network('https://i.imgur.com/TyCSG9A.png'),
+        backgroundColor: Colors.white,
+        styleTextUnderTheLoader: new TextStyle(),
+        photoSize: 100.0,
+        onClick: ()=>Text("Keep calm and drink a tea"),
+        loaderColor: Colors.red
+    );
+  }
+}
+
+class AfterSplash extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body: new Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget> [
+            Center(child: Text("Good Job!",
+                style: new TextStyle(
+                    fontSize: 25.0)),
+            ),
+            Center(child: Text("Your daily CO2 Baseline is:",
+                style: new TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25.0),)),
+            Center(child: Text("10kg:",
+              style: new TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30.0),)),
+            Center(child: Text("That is less than 98% of the humans", textAlign: TextAlign.center,
+              style: new TextStyle(
+                  fontSize: 25.0),)),
+            MaterialButton(
+              onPressed: () {},
+              color: Colors.blue,
+              textColor: Colors.white,
+              padding: EdgeInsets.all(16),
+              shape: CircleBorder(),
+            )
+          ]
+        )
+      ),
+    );
   }
 }
 
