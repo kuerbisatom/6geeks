@@ -1,3 +1,4 @@
+import 'package:co2_tracker/screens/jsontest.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -12,26 +13,26 @@ class DashboardWidget extends StatefulWidget {
 
 class _DashboardWidgetState extends State<DashboardWidget>{
   static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
-    final myFakeDesktopData = [
+    List<TimeSeriesSales> myFakeDesktopData = getListTransportData();/*[
       new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
       new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
       new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
       new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
-    ];
+    ];*/
 
-    var myFakeTabletData = [
-      new TimeSeriesSales(new DateTime(2017, 9, 19), 10),
-      new TimeSeriesSales(new DateTime(2017, 9, 26), 5),
-      new TimeSeriesSales(new DateTime(2017, 10, 3), 20),
-      new TimeSeriesSales(new DateTime(2017, 10, 10), 150),
-    ];
+    List<TimeSeriesSales> myFakeTabletData = getListShoppingData();/*[
+      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
+      new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
+      new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
+      new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
+    ];*/
 
-    var myFakeMobileData = [
-      new TimeSeriesSales(new DateTime(2017, 9, 19), 23),
-      new TimeSeriesSales(new DateTime(2017, 9, 26), 12),
-      new TimeSeriesSales(new DateTime(2017, 10, 3), 123),
-      new TimeSeriesSales(new DateTime(2017, 10, 10), 123),
-    ];
+    List<TimeSeriesSales> myFakeMobileData = getListEatingData();/*[
+      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
+      new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
+      new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
+      new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
+    ];*/
 
     return [
       new charts.Series<TimeSeriesSales, DateTime>(
@@ -198,10 +199,15 @@ class _DashboardWidgetState extends State<DashboardWidget>{
 }
 
 class TimeSeriesSales {
-  final DateTime time;
-  final int sales;
+  DateTime time;
+  int sales;
 
-  TimeSeriesSales(this.time, this.sales);
+  TimeSeriesSales(String dt, String co2) {
+    time = DateTime.parse(dt);
+    sales = int.tryParse(co2);
+
+    print('$time, $sales');
+  }
 }
 
 class OrdinalSales {
