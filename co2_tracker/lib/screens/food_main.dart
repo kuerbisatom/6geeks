@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:co2_tracker/screens/data_saving.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter/services.dart';
+
 
 class FoodMain extends StatefulWidget {
   final int index;
@@ -27,6 +30,17 @@ class listItem{
 class _FoodMainState extends State<FoodMain>{
   @override
   List<int> selectedItems = [];
+  String _scanBarcode = 'Unknown';
+
+  void initState() {
+    super.initState();
+  }
+
+  startBarcodeScanStream() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+        "#ff6666", "Cancel", true, ScanMode.BARCODE)
+        .listen((barcode) => print(barcode));
+  }
 
   final List<listItem> items = [
     listItem("apple",1),listItem("beef",2),listItem("margarita",3),listItem("brie cheese",4)];
@@ -76,13 +90,12 @@ class _FoodMainState extends State<FoodMain>{
                   children: [Container(
                     child: Text("Scan Item",
                         style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                    margin: EdgeInsets.only(left:20, top:20),)],
+                    margin: EdgeInsets.only(left:20, top:20),),Text('Scan result : $_scanBarcode\n',
+                      style: TextStyle(fontSize: 20))],
                 ),
                 Container(
                   child: ElevatedButton(
-                    onPressed: () {
-                      // TODO: Navigate to Item scanning mock
-                    },
+                    onPressed: () => startBarcodeScanStream(),
                     child: Icon(Icons.qr_code_scanner,
                       size:60,
                     ),

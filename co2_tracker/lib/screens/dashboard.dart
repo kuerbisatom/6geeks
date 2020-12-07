@@ -7,6 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class DashboardWidget extends StatefulWidget {
   @override
   _DashboardWidgetState createState() => _DashboardWidgetState();
@@ -140,8 +142,9 @@ class _DashboardWidgetState extends State<DashboardWidget>{
           children: [
             Container(
               child: Column(
-              children: [
-                Text("Welcome Back",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+              children:
+              [
+                Text("Welcome",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
                 Text(days[DateTime.now().weekday - 1] + " " + DateTime.now().day.toString() + "/" + DateTime.now().month.toString() + "/" + DateTime.now().year.toString()),
               ]),
             ),
