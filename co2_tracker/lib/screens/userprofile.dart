@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:co2_tracker/screens/survey.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
 
+typedef Valuebool = bool Function(bool);
+
 class UserProfile extends StatefulWidget {
+  //Valuebool callback;
+  UserProfile();
+
   _UserProfileState createState() => new _UserProfileState();
 }
 
@@ -43,6 +48,7 @@ class _UserProfileState extends State<UserProfile> {
                     color: Color(0xFF66BB64),
                     onPressed: () {
                       // Set state "overlay = false; from another class)
+                      //currentOverlay = false;
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Survey()),

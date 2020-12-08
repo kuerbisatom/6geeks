@@ -1,3 +1,4 @@
+import 'package:co2_tracker/screens/community.dart';
 import 'package:co2_tracker/screens/data_saving.dart';
 import 'package:co2_tracker/screens/food_main.dart';
 import 'package:co2_tracker/screens/placeholder.dart';
@@ -9,6 +10,8 @@ import 'package:co2_tracker/screens/layout.dart';
 import 'package:co2_tracker/screens/userprofile.dart';
 import 'package:flutter/material.dart';
 
+
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -17,6 +20,7 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 
 class _MyHomePageState extends State<MyHomePage> {
   int _index_tab = 0;
@@ -29,6 +33,23 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  static List<Widget> _children= [
+    DashboardWidget(),
+    TipsList(),
+    UserProfile(),
+    Community(),
+    PlaceholderWidget("Transportation"),
+    PlaceholderWidget("Shopping"),
+    FoodMain(),
+  ];
+
+  callback(bool overlay) {
+    setState(() {
+      currentOverlay = overlay;
+    });
+  }
+
+
   void _selectedFab(int index) {
     setState(() {
       currentOverlay = false;
@@ -39,17 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
+
   static List<Widget> _title = [
     Text('Home'),Text('Tips'), Text('Profile'), Text('Community'),Text("Transportation"),Text("Shopping"),Text("Food")
-  ];
-  static List<Widget> _children= [
-    DashboardWidget(),
-    TipsList(),
-    UserProfile(),
-    DataSaving(),
-    PlaceholderWidget("Transportation"),
-    PlaceholderWidget("Shopping"),
-    FoodMain(),
   ];
 
   Widget _buildFab(BuildContext context) {
@@ -83,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      //resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         centerTitle: true,
         title: _title[_index_tab],
