@@ -49,6 +49,7 @@ class _FoodMainState extends State<FoodMain>{
         appBar: AppBar(
           centerTitle: true,
           title: Text("Food"),
+          automaticallyImplyLeading: false,
         ),
         body: Center(
             child: Column(

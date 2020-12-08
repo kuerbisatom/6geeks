@@ -114,6 +114,7 @@ class SurveyState extends State<Survey> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("CO2 Baseline Survey"),
+        automaticallyImplyLeading: false,
       ),
       body: new Form(
           child: Scrollbar(

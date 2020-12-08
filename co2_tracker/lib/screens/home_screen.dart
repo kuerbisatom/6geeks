@@ -101,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         centerTitle: true,
         title: _title[_index_tab],
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: _children[_index_tab]
