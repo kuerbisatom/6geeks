@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
+import 'package:co2_tracker/screens/globals.dart' as globals;
 
 
 class ShoppingMain extends StatefulWidget {
@@ -48,7 +49,14 @@ class _ShoppingMainState extends State<ShoppingMain>{
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
 
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => {
+              globals.currentOverlay = true,
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+                    (Route<dynamic> route) => false,
+              ),
+            },
           ),
           centerTitle: true,
           title: Text("Shopping"),
@@ -159,6 +167,7 @@ class _ShoppingMainState extends State<ShoppingMain>{
                     padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
                     color: Color(0xFF66BB64),
                     onPressed: () {
+                      globals.currentOverlay = true;
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(builder: (context) => MyHomePage()),
