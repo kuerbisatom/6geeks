@@ -39,7 +39,22 @@ class _ShoppingMainState extends State<ShoppingMain>{
   }
 
   final List<listItem> items = [
-    listItem("dress",1),listItem("headphones",2),listItem("candle",3),listItem("notebook",4)];
+    listItem("dress",1),listItem("headphones",2),listItem("candle",3),listItem("notebook",4),listItem("dress",5),
+  listItem("notebook",5),
+  listItem("notebook",6),
+    listItem("notebook",7),
+    listItem("notebook",8),
+    listItem("notebook",9),
+    listItem("notebook",10),
+    listItem("notebook",11),
+    listItem("notebook",12),
+    listItem("notebook",13),
+    listItem("notebook",14),
+    listItem("notebook",15),
+
+
+
+  ];
 
  @override
   Widget build(BuildContext context) {

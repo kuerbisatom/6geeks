@@ -45,7 +45,9 @@ class _FoodMainState extends State<FoodMain>{
   final List<listItem> items = [
     listItem("apple",1),listItem("beef",2),listItem("margarita",3),listItem("brie cheese",4)];
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return new WillPopScope(
+        onWillPop: _requestPop,
+        child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -140,6 +142,13 @@ class _FoodMainState extends State<FoodMain>{
               ],
 
             )),
+        )
     );
+  }
+
+  Future <bool> _requestPop() {
+    print ("Something");
+    globals.currentOverlay = true;
+    return new Future.value(true);
   }
 }

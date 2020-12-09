@@ -169,8 +169,6 @@ class DataSavingState extends State<DataSaving> {
     super.dispose();
   }
 
-
-
   Widget build (BuildContext context) {
     return new Scaffold(
       body: new Column(
