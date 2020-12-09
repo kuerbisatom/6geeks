@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:co2_tracker/screens/survey.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
+import 'package:co2_tracker/screens/globals.dart' as globals;
 
 typedef Valuebool = bool Function(bool);
 
@@ -48,11 +49,15 @@ class _UserProfileState extends State<UserProfile> {
                     color: Color(0xFF66BB64),
                     onPressed: () {
                       // Set state "overlay = false; from another class)
-                      //currentOverlay = false;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Survey()),
-                    ); },
+                      setState(() {
+                        globals.currentOverlay = false;
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => Survey()),
+                          (Route<dynamic> route) => false,
+                        );
+                      });
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
                 new Padding(padding: EdgeInsets.symmetric(horizontal:10.0),

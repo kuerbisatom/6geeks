@@ -9,6 +9,7 @@ import 'package:co2_tracker/screens/fab_bottom.dart';
 import 'package:co2_tracker/screens/layout.dart';
 import 'package:co2_tracker/screens/userprofile.dart';
 import 'package:flutter/material.dart';
+import 'package:co2_tracker/screens/globals.dart' as globals;
 
 
 
@@ -25,11 +26,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _index_tab = 0;
   //int _index_fab = 0;
-  bool currentOverlay = true;
+  //bool currentOverlay = true;
 
   void _selectedTab(int index) {
     setState(() {
       _index_tab = index;
+      globals.currentOverlay = true;
     });
   }
 
@@ -45,14 +47,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   callback(bool overlay) {
     setState(() {
-      currentOverlay = overlay;
+      globals.currentOverlay = overlay;
     });
   }
 
 
   void _selectedFab(int index) {
     setState(() {
-      currentOverlay = false;
+      globals.currentOverlay = false;
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FoodMain(index: index,)),
@@ -74,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return AnchoredOverlay(
-      showOverlay: currentOverlay,
+      showOverlay: globals.currentOverlay,
       overlayBuilder: (context, offset) {
         return CenterAbout(
           position: Offset(offset.dx, offset.dy - icons.length * 35.0),
