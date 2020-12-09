@@ -58,141 +58,151 @@ class _ShoppingMainState extends State<ShoppingMain>{
 
  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back,),
-
-            onPressed: () => {
-              globals.currentOverlay = true,
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
-                    (Route<dynamic> route) => false,
+     return new WillPopScope(
+          onWillPop: _requestPop,
+          child: Scaffold(
+              appBar: AppBar(
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back,),
+                  onPressed: () => {
+                    globals.currentOverlay = true,
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyHomePage()),
+                          (Route<dynamic> route) => false,
+                    ),
+                  },
+                ),
+                centerTitle: true,
+                title: Text("Shopping"),
+                backgroundColor: Colors.green ,
               ),
-            },
-          ),
-          centerTitle: true,
-          title: Text("Shopping"),
-          backgroundColor: Colors.green ,
-        ),
-        body: Center(
-           child: Column(
-              children: [
-                Row(
-                  children: [Container(
-                    child: Text("Search Item",
-                        style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                    margin: EdgeInsets.only(left:20, top:20),)],
-                ),
-                Container(
-                  padding: EdgeInsets.only(left:20, right:20),
-                  child:  SearchableDropdown.multiple(
-                    items: items.map((item) {
-                      return new DropdownMenuItem<listItem>(
-                          child: Text(item.name), value: item);
-                    }).toList(),
-                    selectedItems: selectedItems,
-                    hint: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text("Insert item name...",
-                        style: TextStyle(fontSize: 20),),
+              body: Center(
+                 child: Column(
+                  children: [
+                    Row(
+                      children: [Container(
+                        child: Text("Search Item",
+                            style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+                        margin: EdgeInsets.only(left:20, top:20),)],
                     ),
-                    searchHint: "Insert item name...",
-                    onChanged: (value) {
-                      setState(() {
-                        selectedItems = value;
-                      });
-                    },
-                    closeButton: (selectedItems) {
-                      return (selectedItems.isNotEmpty
-                          ? 'Save (' + selectedItems.length.toString() + ')'
-                          : "Save without selection");
-                    },
-                    isExpanded: true,
-                  ),
-                ),
-                Row(
-                  children: [Container(
-                    child: Text("Made In",
-                        style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                    margin: EdgeInsets.only(left:20, top:20))]
-                ),
-                Container(
-                  child: CountryListPick(
-                    appBar: AppBar(
-                      title: Text('Choose country'),
-                      backgroundColor: Colors.green,
+                    Container(
+                      padding: EdgeInsets.only(left:20, right:20),
+                      child:  SearchableDropdown.multiple(
+                        items: items.map((item) {
+                          return new DropdownMenuItem<listItem>(
+                              child: Text(item.name), value: item);
+                        }).toList(),
+                        selectedItems: selectedItems,
+                        hint: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text("Insert item name...",
+                            style: TextStyle(fontSize: 20),),
+                        ),
+                        searchHint: "Insert item name...",
+                        onChanged: (value) {
+                          setState(() {
+                            selectedItems = value;
+                          });
+                        },
+                        closeButton: (selectedItems) {
+                          return (selectedItems.isNotEmpty
+                              ? 'Save (' + selectedItems.length.toString() + ')'
+                              : "Save without selection");
+                        },
+                        isExpanded: true,
+                      ),
                     ),
-                    initialSelection: '+351',
-                    onChanged: (CountryCode code) {
-                      print(code.name);
-                      print(code.code);
-                      print(code.dialCode);
-                      print(code.flagUri);
-                    },   
-                  ),
-                ),
-               Row(
-                  children: [Container(
-                    child: Text("Plastic Packing",
-                        style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                    margin: EdgeInsets.only(left:20, top:20))]
-                ),
-                Container(
-                  child: Switch(
-                      value: isSwitched,
-                      onChanged: (value){
-                        setState(() {
-                          isSwitched=value;
-                          print(isSwitched);
-                        });
-                      },
-                      activeTrackColor: Colors.lightGreenAccent,
-                      activeColor: Colors.green,
+                    Row(
+                      children: [Container(
+                        child: Text("Made In",
+                            style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+                        margin: EdgeInsets.only(left:20, top:20))]
                     ),
-                ),
-              Row(
-                  children: [Container(
-                    child: Text("Second Hand?",
-                        style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                    margin: EdgeInsets.only(left:20, top:20))]
-                ),
-                Container(
-                  child: Switch(
-                      value: isSwitched2,
-                      onChanged: (value){
-                        setState(() {
-                          isSwitched2=value;
-                          print(isSwitched2);
-                        });
-                      },
-                      activeTrackColor: Colors.lightGreenAccent,
-                      activeColor: Colors.green,
-        ),
-                ),
-              new Container(
-                  margin: EdgeInsets.only(top: 20.0),
-                  child: FlatButton(
-                    height: 40,
-                    child: Text('Add All',
-                        textScaleFactor: 1.4,
-                        style: TextStyle(color: Colors.white)),
-                    padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
-                    color: Color(0xFF66BB64),
-                    onPressed: () {
-                      globals.currentOverlay = true;
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyHomePage()),
-                          (Route <dynamic> route) => false,
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
-              ]),
+                    Container(
+                      child: CountryListPick(
+                        appBar: AppBar(
+                          title: Text('Choose country'),
+                          backgroundColor: Colors.green,
+                        ),
+                        initialSelection: '+351',
+                        onChanged: (CountryCode code) {
+                          print(code.name);
+                          print(code.code);
+                          print(code.dialCode);
+                          print(code.flagUri);
+                        },
+                      ),
+                    ),
+                   Row(
+                      children: [Container(
+                        child: Text("Plastic Packing",
+                            style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+                        margin: EdgeInsets.only(left:20, top:20))]
+                    ),
+                    Container(
+                      child: Switch(
+                          value: isSwitched,
+                          onChanged: (value){
+                            setState(() {
+                              isSwitched=value;
+                              print(isSwitched);
+                            });
+                          },
+                          activeTrackColor: Colors.lightGreenAccent,
+                          activeColor: Colors.green,
+                        ),
+                    ),
+                  Row(
+                      children: [Container(
+                        child: Text("Second Hand?",
+                            style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
+                        margin: EdgeInsets.only(left:20, top:20))]
+                    ),
+                    Container(
+                      child: Switch(
+                          value: isSwitched2,
+                          onChanged: (value){
+                            setState(() {
+                              isSwitched2=value;
+                              print(isSwitched2);
+                            });
+                          },
+                          activeTrackColor: Colors.lightGreenAccent,
+                          activeColor: Colors.green,
+                      ),
+                    ),
+                  new Container(
+                      margin: EdgeInsets.only(top: 20.0),
+                      child: FlatButton(
+                        height: 40,
+                        child: Text('Add All',
+                            textScaleFactor: 1.4,
+                            style: TextStyle(color: Colors.white)),
+                        padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
+                        color: Color(0xFF66BB64),
+                        onPressed: () {
+                          globals.currentOverlay = true;
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyHomePage()),
+                              (Route <dynamic> route) => false,
+                          );
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
+                  ]),
       ),
     ));
+  }
+
+  Future <bool> _requestPop() {
+    print("Something");
+    globals.currentOverlay = true;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => MyHomePage()),
+          (Route<dynamic> route) => false,);
+    return new Future.value(true);
   }
 }
