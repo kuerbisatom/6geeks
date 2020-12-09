@@ -8,6 +8,7 @@ import 'package:co2_tracker/screens/fab_with_icon.dart';
 import 'package:co2_tracker/screens/fab_bottom.dart';
 import 'package:co2_tracker/screens/layout.dart';
 import 'package:co2_tracker/screens/userprofile.dart';
+import 'package:co2_tracker/screens/shopping_main.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -38,24 +39,19 @@ class _MyHomePageState extends State<MyHomePage> {
     UserProfile(),
     Community(),
     PlaceholderWidget("Transportation"),
-    PlaceholderWidget("Shopping"),
     FoodMain(),
+    ShoppingMain(),
   ];
-
-
-
 
   void _selectedFab(int index) {
     setState(() {
       currentOverlay = false;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => FoodMain(index: index,)),
+        MaterialPageRoute(builder: (context) => ShoppingMain(index: index,)),
       );
     });
   }
-
-
 
   static List<Widget> _title = [
     Text('Home'),Text('Tips'), Text('Profile'), Text('Community'),Text("Transportation"),Text("Shopping"),Text("Food")
