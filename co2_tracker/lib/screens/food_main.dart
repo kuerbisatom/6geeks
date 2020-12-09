@@ -50,7 +50,14 @@ class _FoodMainState extends State<FoodMain>{
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
 
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => {
+              globals.currentOverlay = true,
+              Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => MyHomePage()),
+            (Route<dynamic> route) => false,
+            ),
+              },
           ),
           centerTitle: true,
           title: Text("Food"),
