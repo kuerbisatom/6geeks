@@ -46,10 +46,26 @@ class _MyHomePageState extends State<MyHomePage> {
   void _selectedFab(int index) {
     setState(() {
       globals.currentOverlay = false;
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ShoppingMain(index: index,)),
-      );
+      print(index);
+      switch(index) {
+      case 2: Navigator.push(
+          context,
+            MaterialPageRoute(builder: (context) => FoodMain(index: index,)
+          ),);
+          break;
+        case 1:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ShoppingMain(index: index,)
+            ),);
+          break;
+        case 0:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DataSaving()
+            ),);
+          break;
+      }
     });
   }
 

@@ -48,7 +48,7 @@ class _FoodMainState extends State<FoodMain>{
     return new Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: Icon(Icons.arrow_back),
 
             onPressed: () => {
               globals.currentOverlay = true,

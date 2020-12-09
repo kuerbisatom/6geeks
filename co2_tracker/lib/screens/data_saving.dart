@@ -51,7 +51,7 @@ void saveEatingData(dynamic value){
 List<EmissionData> getListTransportData(){
   if (fileExists(transportFile)){
     List<Element> list = listFromJson(transportFile.readAsStringSync());
-    print(list.toString());
+    //print(list.toString());
     List<EmissionData> list_ts = new List<EmissionData>();
 
     for (int i = 0; i < list.length; i++) {
@@ -65,7 +65,7 @@ List<EmissionData> getListTransportData(){
 List<EmissionData> getListShoppingData(){
   if (fileExists(shoppingFile)){
     List<Element> list = listFromJson(shoppingFile.readAsStringSync());
-    print(list.toString());
+    //print(list.toString());
     List<EmissionData> list_ts = new List<EmissionData>();
 
     for (int i = 0; i < list.length; i++) {
@@ -79,7 +79,7 @@ List<EmissionData> getListShoppingData(){
 List<EmissionData> getListEatingData(){
   if (fileExists(eatingFile)){
     List<Element> list = listFromJson(eatingFile.readAsStringSync());
-    print(list.toString());
+    //print(list.toString());
     List<EmissionData> list_ts = new List<EmissionData>();
 
     for (int i = 0; i < list.length; i++) {
@@ -223,18 +223,18 @@ class DataSavingState extends State<DataSaving> {
 }
 
 void createFile(Map<String, dynamic> content, Directory dir, String filename) {
-  print('creating file');
-  print(dir.path + '/' + filename);
+  //print('creating file');
+  //print(dir.path + '/' + filename);
   File file = new File(dir.path + '/' + filename);
   file.createSync();
 }
 
 void saveData(File jsonFile, String filename, String fileContent, dynamic value) {
-  print('Writing to file');
+  //print('Writing to file');
   DateTime dt = DateTime.now();
   DateTime shortdt = new DateTime(dt.year, dt.month, dt.day);
   String date = shortdt.toString();
-  print(date);
+  //print(date);
   Map<String, dynamic> content = { 'date': date, 'co2': value};
 
   //dummy data
@@ -261,10 +261,10 @@ void saveData(File jsonFile, String filename, String fileContent, dynamic value)
     els.add(update);
 
     String newContent = listToJson(els);
-    print (newContent);
+    //print (newContent);
     jsonFile.writeAsStringSync(newContent);
   } else {
-    print('File does not exist');
+    //print('File does not exist');
     createFile(content, dir, filename);
 
     List<Element> els = new List<Element>();
@@ -277,7 +277,7 @@ void saveData(File jsonFile, String filename, String fileContent, dynamic value)
     els.add(Element.fromJson(content4));
 
     String newContent = listToJson(els);
-    print (newContent);
+    //print (newContent);
     jsonFile.writeAsStringSync(newContent);
   }
 }
@@ -291,7 +291,7 @@ Element correctUpdate(Element last, Element update) {
 String getTransportData(){
   if (fileExists(transportFile)){
     List<Element> list = listFromJson(transportFile.readAsStringSync());
-    print(list.toString());
+    //print(list.toString());
     String content = listToJson(list);
     return content;
   }
@@ -301,7 +301,7 @@ String getTransportData(){
 String getShoppingData(){
   if (fileExists(shoppingFile)){
     List<Element> list = listFromJson(shoppingFile.readAsStringSync());
-    print(list.toString());
+    //print(list.toString());
     String content = listToJson(list);
     return content;
   }
@@ -309,7 +309,7 @@ String getShoppingData(){
 }
 
 String getEatingData(){
-  print(fileExists(eatingFile));
+  //print(fileExists(eatingFile));
   if (fileExists(eatingFile)){
     List<Element> list = listFromJson(eatingFile.readAsStringSync());
     String content = listToJson(list);
