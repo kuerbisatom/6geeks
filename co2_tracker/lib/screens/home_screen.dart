@@ -10,8 +10,6 @@ import 'package:co2_tracker/screens/layout.dart';
 import 'package:co2_tracker/screens/userprofile.dart';
 import 'package:flutter/material.dart';
 
-
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -28,6 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool currentOverlay = true;
 
   void _selectedTab(int index) {
+    currentOverlay = true;
     setState(() {
       _index_tab = index;
     });
@@ -43,11 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     FoodMain(),
   ];
 
-  callback(bool overlay) {
-    setState(() {
-      currentOverlay = overlay;
-    });
-  }
+
 
 
   void _selectedFab(int index) {

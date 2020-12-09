@@ -6,7 +6,6 @@ import 'package:co2_tracker/screens/data_saving.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
 
-
 class FoodMain extends StatefulWidget {
   final int index;
     FoodMain({Key key, @required this.index}) : super(key: key);
@@ -47,6 +46,11 @@ class _FoodMainState extends State<FoodMain>{
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           centerTitle: true,
           title: Text("Food"),
         ),
