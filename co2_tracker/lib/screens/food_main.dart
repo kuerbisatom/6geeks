@@ -53,6 +53,7 @@ class _FoodMainState extends State<FoodMain> {
     return new WillPopScope(
         onWillPop: _requestPop,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.arrow_back),

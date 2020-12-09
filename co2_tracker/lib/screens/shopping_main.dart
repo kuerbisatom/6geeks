@@ -61,7 +61,8 @@ class _ShoppingMainState extends State<ShoppingMain>{
      return new WillPopScope(
           onWillPop: _requestPop,
           child: Scaffold(
-              appBar: AppBar(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back,),
                   onPressed: () => {
