@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:co2_tracker/screens/globals.dart' as globals;
 
 class AnchoredOverlay extends StatelessWidget {
-  final bool showOverlay;
+  final bool showOverlay = globals.currentOverlay;
   final Widget Function(BuildContext, Offset anchor) overlayBuilder;
   final Widget child;
 
   AnchoredOverlay({
-    this.showOverlay,
+    showOverlay,
     this.overlayBuilder,
     this.child,
   });

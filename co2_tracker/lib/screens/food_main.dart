@@ -5,6 +5,7 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:co2_tracker/screens/data_saving.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
+import 'package:co2_tracker/screens/globals.dart' as globals;
 
 class FoodMain extends StatefulWidget {
   final int index;
@@ -53,6 +54,7 @@ class _FoodMainState extends State<FoodMain>{
           ),
           centerTitle: true,
           title: Text("Food"),
+          automaticallyImplyLeading: false,
         ),
         body: Center(
             child: Column(
@@ -119,6 +121,7 @@ class _FoodMainState extends State<FoodMain>{
                     padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
                     color: Color(0xFF66BB64),
                     onPressed: () {
+                      globals.currentOverlay = true;
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(builder: (context) => MyHomePage()),

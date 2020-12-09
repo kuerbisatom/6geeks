@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:co2_tracker/screens/globals.dart' as globals;
 
 class Intro extends StatelessWidget {
   @override
@@ -114,6 +115,7 @@ class SurveyState extends State<Survey> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("CO2 Baseline Survey"),
+        automaticallyImplyLeading: false,
       ),
       body: new Form(
           child: Scrollbar(
@@ -503,6 +505,7 @@ class SurveyState extends State<Survey> {
                         padding: EdgeInsets.all(13.0),
                         color: Color(0xFF66BB64),
                         onPressed: () {
+                          globals.currentOverlay = true;
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => Outro()),
