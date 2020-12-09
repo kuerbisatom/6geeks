@@ -524,7 +524,6 @@ class SurveyState extends State<Survey> {
           ),
       ),
     );
-
   }
 }
 
