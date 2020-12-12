@@ -319,7 +319,7 @@ List<EmissionData> create_chart_data (document){
   DateTime now = new DateTime.now();
   DateTime date;
   switch (globals.days){
-    case 7: date = new DateTime(now.year, now.month, now.day-globals.days);break;
+    case 7: date = new DateTime(now.year, now.month, now.day-7);break;
     case 30: date = new DateTime(now.year, now.month-1, now.day);break;
     case 365: date = new DateTime(now.year-1, now.month, now.day);break;
   }
@@ -328,15 +328,17 @@ List<EmissionData> create_chart_data (document){
     for (var j = 0; j < data[i].length; j++){
       DateTime dt = new DateTime.fromMillisecondsSinceEpoch(
           data[i][j]["date"].seconds * 1000);
-      if ( date.isBefore(dt)){
+      if (dt == null){
+          print(data[i][j]);
+          dt = new DateTime(now.year,now.month,now.day);
+      }
+      if (date.isBefore(dt)){
         if (dates.containsKey(data[i][j]["date"].seconds * 1000)) {
-
           dates[data[i][j]["date"].seconds * 1000] += data[i][j]["emission"];
         } else {
           dates[data[i][j]["date"].seconds * 1000] = data[i][j]["emission"];
         }
       }
-
     }
   }
 

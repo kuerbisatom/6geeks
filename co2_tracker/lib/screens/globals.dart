@@ -10,7 +10,6 @@ bool currentOverlay = true;
 String username;
 int days = 7;
 int baseline = 0;
-int today_emission = 0;
 
 addFood(QuerySnapshot document, List<int> items,){
   var value = 0;
@@ -39,7 +38,7 @@ addFood(QuerySnapshot document, List<int> items,){
         }
         if (flag) {
           Firestore.instance.collection("users").document(username).collection("food").document().setData({
-            "date": FieldValue.serverTimestamp(),
+            "date": date,
             "emission": value,
           });
         }
@@ -54,7 +53,7 @@ addFood(QuerySnapshot document, List<int> items,){
             });
           } else {
             document.reference.updateData({
-              "daily.date": FieldValue.serverTimestamp(),
+              "daily.date": date,
               "daily.emission": document.data["daily"]["emission"] + value,
             });
           }
@@ -75,8 +74,6 @@ addProduct(QuerySnapshot document, List<int> items, bool plastic, bool secondHan
         for (var i in items) {
           value += snapshot.documents[i]["value"];
         }
-
-        print(document.documents);
         bool flag = true;
         for (var elem in document.documents) {
           DateTime dt = new DateTime.fromMillisecondsSinceEpoch(elem["date"].seconds * 1000);
@@ -90,8 +87,8 @@ addProduct(QuerySnapshot document, List<int> items, bool plastic, bool secondHan
 
         }
         if (flag) {
-          Firestore.instance.collection("users").document(username).collection("products").document().setData({
-            "date": FieldValue.serverTimestamp(),
+          Firestore.instance.collection("users").document(username).collection("product").document().setData({
+            "date": date,
             "emission": value,
           });
         }
@@ -106,7 +103,7 @@ addProduct(QuerySnapshot document, List<int> items, bool plastic, bool secondHan
           });
         } else {
           document.reference.updateData({
-            "daily.date": FieldValue.serverTimestamp(),
+            "daily.date": date,
             "daily.emission": document.data["daily"]["emission"] + value,
           });
         }
@@ -118,7 +115,7 @@ addProduct(QuerySnapshot document, List<int> items, bool plastic, bool secondHan
 
 addNewProduct(List<int> items, bool plastic, bool secondHand ){
 
-  CollectionReference product = Firestore.instance.collection('products');
+  CollectionReference product = Firestore.instance.collection('product');
 
   // Future<void> addUser() {
   //     // Call the user's CollectionReference to add a new user

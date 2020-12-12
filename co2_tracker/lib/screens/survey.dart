@@ -28,7 +28,7 @@ class Intro extends StatelessWidget {
             Center(child: Text("Ready to Start your CO2-Journey?",
               style: new TextStyle(fontSize: 20,color: Colors.white),),),
             Center(child: FlatButton(
-              height: 40,
+              height: 100,
               child: Text('Find your C02 Baseline',
                   textScaleFactor: 1.4,
                   style: TextStyle(color: Colors.green)),
