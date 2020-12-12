@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "69583015531",
+    "project_id": "co2-tracker-198e5",
+    "storage_bucket": "co2-tracker-198e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69583015531:android:b9f35228c7742f6cb62b2e",
+        "android_client_info": {
+          "package_name": "kuerbisatom.github.co2_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69583015531-2rpdnlmkmovhevegt9pqpegrb817gs69.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjb9Rdrwy0ps9ch5p1a1bnBWfnnR2JYW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69583015531-2rpdnlmkmovhevegt9pqpegrb817gs69.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

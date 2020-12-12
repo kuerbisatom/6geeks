@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
         case 0:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => DataSaving()
+            MaterialPageRoute(builder: (context) => PlaceholderWidget("text")
             ),);
           break;
       }

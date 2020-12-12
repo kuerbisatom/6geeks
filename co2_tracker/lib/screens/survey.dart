@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:co2_tracker/screens/globals.dart' as globals;
+
+var baseline = 20;
 
 class Intro extends StatelessWidget {
   @override
@@ -531,8 +534,7 @@ class Outro extends StatelessWidget{
 
   Widget build(BuildContext context) {
     return new SplashScreen(
-        seconds: 3,
-        navigateAfterSeconds: new AfterSplash(),
+        navigateAfterFuture: loadFromFuture(),
         title: new Text('Calculating your Baseline',
           style: new TextStyle(
               fontWeight: FontWeight.bold,
@@ -547,6 +549,42 @@ class Outro extends StatelessWidget{
     );
   }
 }
+
+Future<Widget> loadFromFuture() async {
+  var firestore = Firestore.instance;
+
+  final snapShot = await firestore
+      .collection('users')
+      .document(globals.username)
+      .get();
+
+  if (snapShot == null || !snapShot.exists){
+    firestore.collection("users").document(globals.username).setData({
+      "user": globals.username,
+    });
+    List<String> fish = ["food", "product", "transport"];
+      for (var i = 0; i< 3; i++){
+        for (var j = 1; j<= 12; j++){
+          firestore.collection("users").document(globals.username).collection(fish[i]).document().setData({
+            "date": new DateTime(2020,j,1),
+            "emission": j,
+          });
+        }
+        for (var j = 2; j <= 7; j++){
+          firestore.collection("users").document(globals.username).collection(fish[i]).document().setData({
+          "date": new DateTime(2020,12,j),
+          "emission": j,
+          });
+        }
+      }
+    }
+  firestore.collection("users").document(globals.username).collection("baseline").document().setData({
+    "value": baseline,
+  });
+
+  return Future.value(new AfterSplash());
+}
+
 
 class AfterSplash extends StatelessWidget {
   @override

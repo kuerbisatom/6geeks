@@ -1,13 +1,11 @@
-import 'package:co2_tracker/screens/data_saving.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'dart:convert';
+import 'package:co2_tracker/screens/globals.dart' as globals;
+import 'package:rxdart/rxdart.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardWidget extends StatefulWidget {
   @override
@@ -18,123 +16,65 @@ class _DashboardWidgetState extends State<DashboardWidget>{
 
   void initState() {
     super.initState();
-    getApplicationDocumentsDirectory().then((Directory directory) {
-      dir = directory;
-      transportFile = new File(dir.path + '/' + t_filename);
-      if (fileExists(transportFile)) this.setState(() {
-        transportContent = jsonDecode(transportFile.readAsStringSync()).toString();
-      });
-      shoppingFile = new File(dir.path + '/' + s_filename);
-      if (fileExists(shoppingFile)) this.setState(() {
-        shoppingContent = jsonDecode(shoppingFile.readAsStringSync()).toString();
-      });
-      eatingFile = new File(dir.path + '/' + e_filename);
-      if (fileExists(eatingFile)) this.setState(() {
-        eatingContent = jsonDecode(eatingFile.readAsStringSync()).toString();
-      });
-    });
+    _selections[0] = true;
   }
 
 
-  static List<charts.Series<EmissionData, DateTime>> _createSampleData() {
-    List<EmissionData> transportData = getListTransportData();
-    /*[
-      new EmissionData(new DateTime(2017, 9, 19).toString(), 5.toString()),
-      new EmissionData(new DateTime(2017, 9, 26).toString(), 25.toString()),
-      new EmissionData(new DateTime(2017, 10, 3).toString(), 100.toString()),
-      new EmissionData(new DateTime(2017, 10, 10).toString(), 75.toString()),
-    ];*/
+  static List<charts.Series<EmissionData, DateTime>> _createSampleData(document) {
 
-    List<EmissionData> shoppingData = getListShoppingData();
-    /*[
-      new EmissionData(new DateTime(2017, 9, 19).toString(), 5.toString()),
-      new EmissionData(new DateTime(2017, 9, 26).toString(), 25.toString()),
-      new EmissionData(new DateTime(2017, 10, 3).toString(), 100.toString()),
-      new EmissionData(new DateTime(2017, 10, 10).toString(), 75.toString()),
-    ];*/
-
-    List<EmissionData> eatingData = getListEatingData();
-    /*[
-      new EmissionData(new DateTime(2017, 9, 19).toString(), 5.toString()),
-      new EmissionData(new DateTime(2017, 9, 26).toString(), 25.toString()),
-      new EmissionData(new DateTime(2017, 10, 3).toString(), 100.toString()),
-      new EmissionData(new DateTime(2017, 10, 10).toString(), 75.toString()),
-    ];*/
+    final allData = [
+      new EmissionData(new DateTime(2017, 9, 19), 20),
+      new EmissionData(new DateTime(2017, 9, 19), 20),
+      new EmissionData(new DateTime(2017, 10, 3), 40),
+      new EmissionData(new DateTime(2017, 10, 10), 75),
+    ];
 
     return [
       new charts.Series<EmissionData, DateTime>(
         id: 'Food',
-        // colorFn specifies that the line will be blue.
+// colorFn specifies that the line will be blue.
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFDCEDC8)),
-        // areaColorFn specifies that the area skirt will be light blue.
+// areaColorFn specifies that the area skirt will be light blue.
         areaColorFn: (_, __) =>
             charts.ColorUtil.fromDartColor(brighten(Color(0xFFDCEDC8),50)),
         domainFn: (EmissionData emission, _) => emission.time,
         measureFn: (EmissionData emission, _) => emission.emission,
+        data: allData,
+      ),
+    ];
+  }
+
+  static List<charts.Series<OrdinalEmission, String>> _createBarData(document) {
+    final eatingData = create_bar_data(document[0]);
+    final transportData = create_bar_data(document[1]);
+    final shoppingData = create_bar_data(document[2]);
+
+    return [
+      new charts.Series<OrdinalEmission, String>(
+        id: 'Transport',
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFDCEDC8)),
+
+        domainFn: (OrdinalEmission emission, _) => emission.type,
+        measureFn: (OrdinalEmission emission, _) => emission.emission,
         data: transportData,
       ),
-      new charts.Series<EmissionData, DateTime>(
+      new charts.Series<OrdinalEmission, String>(
         id: 'Grocery',
-        // colorFn specifies that the line will be red.
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFB2EBF2)),
-        // areaColorFn specifies that the area skirt will be light red.
-        areaColorFn: (_, __) => charts.ColorUtil.fromDartColor(brighten(Color(0xFFB2EBF2),50)),
-        domainFn: (EmissionData emission, _) => emission.time,
-        measureFn: (EmissionData emission, _) => emission.emission,
+        domainFn: (OrdinalEmission emission, _) => emission.type,
+        measureFn: (OrdinalEmission emission, _) => emission.emission,
         data: shoppingData,
       ),
-      new charts.Series<EmissionData, DateTime>(
-        id: 'Transport',
-        // colorFn specifies that the line will be green.
+      new charts.Series<OrdinalEmission, String>(
+        id: 'Food',
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFFFECB3)),
-        // areaColorFn specifies that the area skirt will be light green.
-        areaColorFn: (_, __) =>
-            charts.ColorUtil.fromDartColor(brighten(Color(0xFFFFECB3),50)),
-        domainFn: (EmissionData emission, _) => emission.time,
-        measureFn: (EmissionData emission, _) => emission.emission,
+        domainFn: (OrdinalEmission emission, _) => emission.type,
+        measureFn: (OrdinalEmission emission, _) => emission.emission,
         data: eatingData,
       ),
     ];
   }
-  /// Create series list with multiple series
-  static List<charts.Series<OrdinalSales, String>> _createSampleData_Stacked() {
-    final transportOrdinalData = [
-      new OrdinalSales('2017', getTotalTransportValue()),
-    ];
 
-    final shoppingOrdinalData = [
-      new OrdinalSales('2017', getTotalShoppingValue()),
-    ];
-
-    final eatingOrdinalData = [
-      new OrdinalSales('2017', getTotalEatingValue()),
-    ];
-
-    return [
-      new charts.Series<OrdinalSales, String>(
-        id: 'Food',
-        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFDCEDC8)),
-
-        domainFn: (OrdinalSales emission, _) => emission.year,
-        measureFn: (OrdinalSales emission, _) => emission.emission,
-        data: transportOrdinalData,
-      ),
-      new charts.Series<OrdinalSales, String>(
-        id: 'Grocery',
-        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFB2EBF2)),
-        domainFn: (OrdinalSales emission, _) => emission.year,
-        measureFn: (OrdinalSales emission, _) => emission.emission,
-        data: shoppingOrdinalData,
-      ),
-      new charts.Series<OrdinalSales, String>(
-        id: 'Transport',
-        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xFFFFECB3)),
-        domainFn: (OrdinalSales emission, _) => emission.year,
-        measureFn: (OrdinalSales emission, _) => emission.emission,
-        data: eatingOrdinalData,
-      ),
-    ];
-  }
   List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   List<bool> _selections = List.generate(3, (_) => false);
 
@@ -182,12 +122,24 @@ class _DashboardWidgetState extends State<DashboardWidget>{
                   Text("Distribution",style: TextStyle(fontWeight: FontWeight.bold),),
                   Padding(
                     padding: const EdgeInsets.only(left: 5.0,right: 5.0),
-                      child: Container(height: 75,child: StackedHorizontalBarChart(
-                          _createSampleData_Stacked(),
-                          animate: false,
+                      child: Container(
+                          height: 75,
+                          child: StreamBuilder(
+                              stream: Rx.combineLatest3(
+                                  Firestore.instance.collection("users").document("test").collection("food").snapshots(),
+                                  Firestore.instance.collection("users").document("test").collection("transport").snapshots(),
+                                  Firestore.instance.collection("users").document("test").collection("product").snapshots(),
+                                      (value1, value2, value3) =>  [value1.documents,value2.documents,value3.documents]
+                              ),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) return Text("Waiting");
+                                return StackedHorizontalBarChart(
+                                  _createBarData(snapshot.data),
+                                  animate: false,);
+                              }
+                          )
                       )
                   )
-                ),
                 ]
               )),
             Divider(color: Colors.black12),
@@ -198,7 +150,23 @@ class _DashboardWidgetState extends State<DashboardWidget>{
                       Text("Progress",style: TextStyle(fontWeight: FontWeight.bold),),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-                        child: Container(height: 200,child: StackedAreaCustomColorLineChart(_createSampleData(), animate: false,))
+                        child: Container(
+                            height: 200,
+                            child: StreamBuilder(
+                                stream: Rx.combineLatest3(
+                                  Firestore.instance.collection("users").document("test").collection("food").snapshots(),
+                                  Firestore.instance.collection("users").document("test").collection("transport").snapshots(),
+                                  Firestore.instance.collection("users").document("test").collection("product").snapshots(),
+                                    (value1, value2, value3) =>  [value1.documents,value2.documents,value3.documents]
+                                ),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) return Text("Waiting");
+                                  return StackedAreaCustomColorLineChart(
+                                      _createSampleData(snapshot.data),
+                                      animate: false,);
+                                }
+                              )
+                          )
                       ),
                       ToggleButtons(
                         children: [Text("Week"),Text("Month"),Text("Year")],
@@ -226,28 +194,20 @@ class _DashboardWidgetState extends State<DashboardWidget>{
   }
 }
 
+
+
 class EmissionData {
   DateTime time;
   int emission;
 
-  EmissionData(String dt, String co2) {
-    time = DateTime.parse(dt);
-    emission = int.tryParse(co2);
-
-    print('$time, $emission');
-  }
-  void settime(DateTime newtime) { this.time=newtime; }
-  void setemission(int newemission) { this.emission=newemission; }
-
-  DateTime gettime() { return this.time; }
-  int getemission() { return this.emission; }
+  EmissionData(this.time, this.emission);
 }
 
-class OrdinalSales {
-  final String year;
+class OrdinalEmission {
+  final String type;
   final int emission;
 
-  OrdinalSales(this.year, this.emission);
+  OrdinalEmission(this.type, this.emission);
 }
 
 class StackedAreaCustomColorLineChart extends StatelessWidget {
@@ -307,3 +267,23 @@ Color brighten(Color c, [int percent = 10]) {
       c.blue + ((255 - c.blue) * p).round()
   );
 }
+
+
+List<OrdinalEmission> create_bar_data(data) {
+
+  List<OrdinalEmission> temp = [];
+  DateTime now = new DateTime.now();
+  DateTime date = new DateTime(now.year, now.month, now.day);
+
+  for (var i = 0; i < data.length; i++) {
+    DateTime dt = new DateTime.fromMillisecondsSinceEpoch(
+        data[i]["date"].seconds * 1000);
+    dt = new DateTime(dt.year, dt.month, dt.day);
+    if (date == dt) {
+      temp.add(
+          new OrdinalEmission("1", data[i]["emission"]));
+    }
+  }
+  return temp;
+}
+
