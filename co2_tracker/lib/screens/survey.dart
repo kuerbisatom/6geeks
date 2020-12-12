@@ -86,6 +86,19 @@ class SurveyState extends State<Survey> {
   int radioValue1 = 0;
   int radioValue2 = 0;
   int radioValue3 = 0;
+  final myController1 = TextEditingController();
+  final myController2 = TextEditingController();
+  final myController3 = TextEditingController();
+  final myController4 = TextEditingController();
+  int answer1 = 0;
+  int answer2 = 0;
+  int answer3 = 0;
+  int answer4 = 0;
+  int answer5 = 0;
+  int answer6 = 0;
+  int answer7 = 0;
+  int answer8 = 0;
+  int finalValue = 0;
 
   void handleRadioValueChanged1(int value){
     setState(() {
@@ -136,6 +149,8 @@ class SurveyState extends State<Survey> {
                       decoration: InputDecoration(
                         labelText:"Insert number...",
                       ),
+                      keyboardType: TextInputType.number,
+                      controller: myController1,
                     ),
 
                     sizedBoxSpace,
@@ -147,6 +162,8 @@ class SurveyState extends State<Survey> {
                       decoration: InputDecoration(
                         labelText:"Insert year...",
                       ),
+                      keyboardType: TextInputType.number,
+                      controller: myController2,
                     ),
 
                     sizedBoxSpace,
@@ -156,8 +173,10 @@ class SurveyState extends State<Survey> {
                     ),
                     TextFormField(
                       decoration: InputDecoration(
-                        labelText:"Insert number",
+                        labelText:"Insert number...",
                       ),
+                      keyboardType: TextInputType.number,
+                      controller: myController3,
                     ),
 
                     sizedBoxSpace,
@@ -202,7 +221,9 @@ class SurveyState extends State<Survey> {
                           ),
                           sizedBoxSpaceWidth1,
                           new Container(
+
                             child: Column(
+
                               children: [
 
                                 Checkbox(
@@ -211,6 +232,7 @@ class SurveyState extends State<Survey> {
                                     setState(() {
                                       checkboxValue1 = value;
                                     });
+                                    print(checkboxValue1);
                                   },
                                 ),
                                 Checkbox(
@@ -448,8 +470,10 @@ class SurveyState extends State<Survey> {
                     ),
                     TextFormField(
                       decoration: InputDecoration(
-                        labelText:"Insert number",
+                        labelText:"Insert number...",
                       ),
+                      keyboardType: TextInputType.number,
+                      controller: myController4,
                     ),
 
                     sizedBoxSpace,
@@ -462,7 +486,6 @@ class SurveyState extends State<Survey> {
                       child: Row(
                         children: [
                           sizedBoxSpaceWidth4,
-
 
                           new Container(
                             child: Column(
@@ -513,7 +536,8 @@ class SurveyState extends State<Survey> {
                             context,
                             MaterialPageRoute(builder: (context) => Outro()),
                               (Route<dynamic> route) => false,
-                          ); },
+                          );
+                          calculateBaseline();},
                         shape: RoundedRectangleBorder(
                             borderRadius: const BorderRadius.all(Radius.circular(100.0))
                         ),
@@ -527,6 +551,91 @@ class SurveyState extends State<Survey> {
           ),
       ),
     );
+  }
+  void calculateBaseline(){
+    //1st question results
+    if(myController1.text.length > 0) {
+      answer1 = int.parse(myController1.text);
+    }
+    //2nd question results
+    if(myController2.text.length > 0) {
+      answer2 = DateTime.now().year.toInt() - int.parse(myController2.text);
+    }
+    //3rd question results
+    if(myController3.text.length > 0) {
+      answer3 = int.parse(myController3.text);
+    }
+    //7th question results
+    if(myController4.text.length > 0) {
+      answer7 = int.parse(myController4.text);
+    }
+
+    //4th question results
+    if(checkboxValue1){
+      answer4 += 10;
+    }
+    if(checkboxValue2){
+      answer4 += 10;
+    }
+    if(checkboxValue3){
+      answer4 += 10;
+    }
+    if(checkboxValue4){
+      answer4 += 10;
+    }
+    if(checkboxValue5){
+      answer4 += 10;
+    }
+    if(checkboxValue6){
+      answer4 += 10;
+    }
+    if(checkboxValue7){
+      answer4 += 10;
+    }
+    if(checkboxValue8){
+      answer4 += 10;
+    }
+    if(checkboxValue9){
+      answer4 += 10;
+    }
+    if(checkboxValue10){
+      answer4 += 10;
+    }
+
+    //5th question results
+    if(radioValue1 == 0){
+      answer5 = 30;
+    }
+    else if (radioValue1 == 1){
+      answer5 = 20;
+    }
+    else if (radioValue1 == 2){
+      answer5 = 10;
+    }
+    else if (radioValue1 == 3){
+      answer5 = 0;
+    }
+
+    //6th question results
+    if(radioValue2 == 0){
+      answer6 = 10;
+    }
+    else if (radioValue2 == 1){
+      answer6 = 30;
+    }
+    else if (radioValue2 == 2){
+      answer6 = 15;
+    }
+
+    //8th question results
+    if(radioValue3 == 0){
+      answer8 = 0;
+    }
+    else if (radioValue3 == 1){
+      answer8 = 30;
+    }
+
+    finalValue = answer1 + answer2 + answer3 + answer4 + answer5 + answer6 + answer7 + answer8;
   }
 }
 
