@@ -46,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void _selectedFab(int index) {
     setState(() {
       globals.currentOverlay = false;
-      print(index);
       switch(index) {
       case 2: Navigator.push(
           context,
@@ -102,7 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       //resizeToAvoidBottomPadding: false,
       appBar: AppBar(

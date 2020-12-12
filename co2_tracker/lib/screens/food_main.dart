@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,12 +43,7 @@ class _FoodMainState extends State<FoodMain> {
         .listen((barcode) => print(barcode));
   }
 
-  final List<listItem> items = [
-    listItem("apple", 1),
-    listItem("beef", 2),
-    listItem("margarita", 3),
-    listItem("brie cheese", 4)
-  ];
+  List<listItem> items;
 
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -85,29 +81,32 @@ class _FoodMainState extends State<FoodMain> {
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 20, right: 20),
-                    child: SearchableDropdown.multiple(
-                      items: items.map((item) {
-                        return new DropdownMenuItem<listItem>(
-                            child: Text(item.name), value: item);
-                      }).toList(),
-                      selectedItems: selectedItems,
-                      hint: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text("Insert item name...",
-                          style: TextStyle(fontSize: 20),),
-                      ),
-                      searchHint: "Insert item name...",
-                      onChanged: (value) {
-                        setState(() {
-                          selectedItems = value;
-                        });
-                      },
-                      closeButton: (selectedItems) {
-                        return (selectedItems.isNotEmpty
-                            ? 'Save (' + selectedItems.length.toString() + ')'
-                            : "Save without selection");
-                      },
-                      isExpanded: true,
+                    child: StreamBuilder(
+                      stream: Firestore.instance.collection("food").snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return CircularProgressIndicator();
+                        return SearchableDropdown.multiple(
+                          items: product_list(snapshot.data.documents),
+                          selectedItems: selectedItems,
+                          hint: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text("Insert item name...",
+                              style: TextStyle(fontSize: 20),),
+                          ),
+                          searchHint: "Insert item name...",
+                          onChanged: (value) {
+                            setState(() {
+                              selectedItems = value;
+                            });
+                          },
+                          closeButton: (selectedItems) {
+                            return (selectedItems.isNotEmpty
+                                ? 'Save (' + selectedItems.length.toString() + ')'
+                                : "Save without selection");
+                          },
+                          isExpanded: true,
+                        );
+                      }
                     ),
                   ),
                   Row(
@@ -135,25 +134,36 @@ class _FoodMainState extends State<FoodMain> {
                   ),
                   new Container(
                     margin: EdgeInsets.only(top: 20.0),
-                    child: FlatButton(
-                      height: 40,
-                      child: Text('Add All',
-                          textScaleFactor: 1.4,
-                          style: TextStyle(color: Colors.white)),
-                      padding: EdgeInsets.only(
-                          top: 13.0, bottom: 13, right: 40, left: 40),
-                      color: Color(0xFF66BB64),
-                      onPressed: () {
-                        globals.currentOverlay = true;
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyHomePage()),
-                              (Route <dynamic> route) => false,
-                        );
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: const BorderRadius.all(
-                              Radius.circular(25.0))),),),
+                    child: StreamBuilder(
+                      stream: Firestore.instance.collection("users").document(globals.username).collection("food").snapshots(),
+                      builder: (context, snapshot){
+                        if (!snapshot.hasData) return CircularProgressIndicator();
+                       return  FlatButton(
+                         height: 40,
+                         child: Text('Add All',
+                             textScaleFactor: 1.4,
+                             style: TextStyle(color: Colors.white)),
+                         padding: EdgeInsets.only(
+                             top: 13.0, bottom: 13, right: 40, left: 40),
+                         color: Color(0xFF66BB64),
+                         onPressed: () {
+                           globals.addFood(snapshot.data, selectedItems);
+                           globals.currentOverlay = true;
+                           Navigator.pushAndRemoveUntil(
+                             context,
+                             MaterialPageRoute(builder: (context) => MyHomePage()),
+                                 (Route <dynamic> route) => false,
+                           );
+                         },
+                         shape: RoundedRectangleBorder(
+                             borderRadius: const BorderRadius.all(
+                                 Radius.circular(25.0))
+                         ),
+                       );
+                      }
+                    ),
+
+                  ),
                 ],
 
               )),
@@ -162,7 +172,6 @@ class _FoodMainState extends State<FoodMain> {
   }
 
   Future <bool> _requestPop() {
-    print("Something");
     globals.currentOverlay = true;
     Navigator.pushAndRemoveUntil(
       context,
@@ -170,5 +179,15 @@ class _FoodMainState extends State<FoodMain> {
           (Route<dynamic> route) => false,);
     return new Future.value(true);
   }
+}
+
+product_list(List<dynamic> documents) {
+  List <DropdownMenuItem> temp = new List<DropdownMenuItem>();
+  for (var i = 0; i < documents.length; i++) {
+    temp.add(DropdownMenuItem<listItem>(
+      child: Text(documents[i].documentID), value: new listItem(documents[i].documentID, i),
+    ));
+  }
+  return temp;
 }
 

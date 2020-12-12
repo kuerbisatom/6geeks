@@ -137,7 +137,6 @@ class _ShoppingMainState extends State<ShoppingMain>{
                       onChanged: (value){
                         setState(() {
                           isSwitched=value;
-                          print(isSwitched);
                         });
                       },
                       activeTrackColor: Colors.lightGreenAccent,
@@ -156,7 +155,6 @@ class _ShoppingMainState extends State<ShoppingMain>{
                       onChanged: (value){
                         setState(() {
                           isSwitched2=value;
-                          print(isSwitched2);
                         });
                       },
                       activeTrackColor: Colors.lightGreenAccent,
@@ -177,7 +175,7 @@ class _ShoppingMainState extends State<ShoppingMain>{
                               padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
                               color: Color(0xFF66BB64),
                               onPressed: () {
-                                globals.addProduct(snapshot.data,"product", selectedItems, isSwitched, isSwitched2);
+                                globals.addProduct(snapshot.data, selectedItems, isSwitched, isSwitched2);
                                 globals.currentOverlay = true;
                                 Navigator.pushAndRemoveUntil(
                                   context,
@@ -199,9 +197,7 @@ class _ShoppingMainState extends State<ShoppingMain>{
         ));
   }
 
-
   Future <bool> _requestPop() {
-    print("Something");
     globals.currentOverlay = true;
     Navigator.pushAndRemoveUntil(
       context,
