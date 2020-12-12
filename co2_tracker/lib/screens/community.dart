@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -40,19 +41,26 @@ class _CommunityState extends State<Community>{
             ),
             Divider(color: Colors.black12),
             Text("Challenges", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            Container(
-                margin: EdgeInsets.only(bottom: 10),
-                height: 200,
-                width: 400,
-                child: new Swiper(
-                  itemBuilder: (BuildContext context, int index) {
-                    return create_Cards(index);
-                  },
-                  itemCount: cards.length,
-                  viewportFraction: 0.8,
-                  scale: 0.9,
-                )
+            StreamBuilder(
+                stream: Firestore.instance.collection("challenges").snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return CircularProgressIndicator();
+                  return Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      height: 200,
+                      width: 400,
+                      child: new Swiper(
+                        itemBuilder: (BuildContext context, int index) {
+                          return create_Cards(index);
+                        },
+                        itemCount: cards.length,
+                        viewportFraction: 0.8,
+                        scale: 0.9,
+                      )
+                  );
+                }
             ),
+
           ],
       ),
     );

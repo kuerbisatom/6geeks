@@ -636,6 +636,9 @@ class SurveyState extends State<Survey> {
     }
 
     finalValue = answer1 + answer2 + answer3 + answer4 + answer5 + answer6 + answer7 + answer8;
+
+    globals.baseline = finalValue;
+
   }
 }
 
@@ -667,29 +670,18 @@ Future<Widget> loadFromFuture() async {
       .document(globals.username)
       .get();
 
-  if (snapShot == null || !snapShot.exists){
+  if (snapShot == null || !snapShot.exists) {
     firestore.collection("users").document(globals.username).setData({
       "user": globals.username,
     });
-    List<String> fish = ["food", "product", "transport"];
-      for (var i = 0; i< 3; i++){
-        for (var j = 1; j<= 12; j++){
-          firestore.collection("users").document(globals.username).collection(fish[i]).document().setData({
-            "date": new DateTime(2020,j,1),
-            "emission": j,
+  }
+
+  Firestore.instance.collection("users").document(globals.username).get().then(
+            (document) {
+          document.reference.updateData({
+            "baseline": globals.baseline,
           });
-        }
-        for (var j = 2; j <= 7; j++){
-          firestore.collection("users").document(globals.username).collection(fish[i]).document().setData({
-          "date": new DateTime(2020,12,j),
-          "emission": j,
-          });
-        }
-      }
-    }
-  firestore.collection("users").document(globals.username).collection("baseline").document().setData({
-    "value": baseline,
-  });
+        });
 
   return Future.value(new AfterSplash());
 }
@@ -711,7 +703,7 @@ class AfterSplash extends StatelessWidget {
                 style: new TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25.0),)),
-            Center(child: Text("10kg:",
+            Center(child: Text(globals.baseline.toString() +" kg",
               style: new TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30.0),)),
