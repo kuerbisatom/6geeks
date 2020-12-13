@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:co2_tracker/screens/full_screen_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:co2_tracker/screens/survey.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
@@ -15,27 +16,16 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  TextEditingController _controller1;
-  TextEditingController _controller2;
-  TextEditingController _controller3;
 
   void initState() {
     super.initState();
-    _controller1 = TextEditingController();
-    _controller2 = TextEditingController();
-    _controller3 = TextEditingController();
   }
 
-  void dispose() {
-    _controller1.dispose();
-    _controller2.dispose();
-    _controller3.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+        resizeToAvoidBottomInset: false,
         body: StreamBuilder(
             stream: Firestore.instance.collection("users").document(globals.username).snapshots(),
             builder: (context, snapshot) {
@@ -91,63 +81,12 @@ class _UserProfileState extends State<UserProfile> {
                             Text("Not you? Create a new Pofile"),
                             OutlineButton(
                                 onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: Text("Create new user"),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            TextField(
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                labelText: 'Name',
-                                              ),
-                                              controller: _controller1,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: 10),
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  labelText: 'Age',
-                                                ),
-                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                                keyboardType: TextInputType.number,
-                                                controller: _controller2,
-                                              ),),
-                                            Container(
-                                              margin: EdgeInsets.only(top: 10),
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  labelText: 'City',
-                                                ),
-                                                controller: _controller2,
-                                              ),)
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Cancel'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                        TextButton(
-                                          child: Text('Add'),
-                                          onPressed: () {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CreateUserDialog(),fullscreenDialog: true),
+                                        (Route<dynamic> route) => false,);
+                                  },
 
-                                            _controller2.clear();
-                                            _controller1.clear();
-                                            _controller3.clear();
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],),
-                                  );
-                                },
                                 child: Text("Create", style: new TextStyle(color: Colors.green),))
                           ],
                         )),

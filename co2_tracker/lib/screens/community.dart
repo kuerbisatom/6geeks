@@ -18,10 +18,6 @@ class _CommunityState extends State<Community>{
     super.initState();
   }
 
-  final List<String> entries = ["Lisa","Peter","You","Fish","Dog","Wolf"];
-  final List<String> em = ["14","15","1234","123","121","1452"];
-  // final List<String> cards = ["Test1","Test2"];
-  // final List<String> challenge = ["Challenge1", "Challenge2"];
 
   @override
   Widget build(BuildContext context) {
@@ -159,13 +155,24 @@ class _CommunityState extends State<Community>{
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                title: Text(documents[index]["Title"], textAlign: TextAlign.center,),
+                title: Text(
+                  documents[index]["Title"],
+                  textAlign: TextAlign.center,
+                  style: new TextStyle(fontWeight: FontWeight.bold),),
               ),
               Expanded(
-                  child: Container(
+                  child: new SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Container(
                       margin: EdgeInsets.only(left: 20, right: 20,),
-                      child: Text(documents[index]["Content"])
+                      child: Column (
+                          children: <Widget> [
+                            Text(documents[index]["Content"]),
+                            check_part(documents[index]["participants"]),
+                          ]
+                      ),
                   )
+                ),
               ),
               Center(
                 child: FlatButton(
@@ -213,5 +220,18 @@ class _CommunityState extends State<Community>{
           ),
         )
     );
+  }
+}
+
+check_part(part) {
+
+  if (part.length == 0){
+    return Text("No Participants");
+  } else {
+    String p = "";
+    for (var x in part){
+      p += x + " ";
+    }
+    return Text('Participants: $p');
   }
 }

@@ -24,7 +24,7 @@ class _DashboardWidgetState extends State<DashboardWidget>{
       // final eatingData = create_bar_data(document[0]);
       // final transportData = create_bar_data(document[1]);
       // final shoppingData = create_bar_data(document[2]);
-    final allData = create_chart_data(document);
+    var allData = create_chart_data(document);
 
     // final allData = [
     //   new EmissionData(new DateTime(2017, 9, 19), 20),
@@ -32,6 +32,10 @@ class _DashboardWidgetState extends State<DashboardWidget>{
     //   new EmissionData(new DateTime(2017, 10, 3), 40),
     //   new EmissionData(new DateTime(2017, 10, 10), 75),
     // ];
+    DateTime now = DateTime.now();
+    if(allData.isEmpty){
+      allData=[new EmissionData(new DateTime(now.year,now.month,now.day),globals.baseline)];
+    }
 
     return [
       new charts.Series<EmissionData, DateTime>(
@@ -103,7 +107,13 @@ class _DashboardWidgetState extends State<DashboardWidget>{
               stream: Firestore.instance.collection("users").document(globals.username).snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return CircularProgressIndicator();
-                int value = (snapshot.data["baseline"] + snapshot.data["daily"]["emission"]);
+                int emission;
+                try {
+                  emission = snapshot.data["daily"]["emission"];
+                } catch (e){
+                  emission = 0;
+                }
+                int value = (snapshot.data["baseline"] + emission);
                 var index = 0;
                 if (value < 3){index = 0;}
                 else if (value < 6){index = 1;}
@@ -175,9 +185,9 @@ class _DashboardWidgetState extends State<DashboardWidget>{
                             height: 200,
                             child: StreamBuilder(
                                 stream: Rx.combineLatest3(
-                                  Firestore.instance.collection("users").document("test").collection("food").snapshots(),
-                                  Firestore.instance.collection("users").document("test").collection("transport").snapshots(),
-                                  Firestore.instance.collection("users").document("test").collection("product").snapshots(),
+                                  Firestore.instance.collection("users").document(globals.username).collection("food").snapshots(),
+                                  Firestore.instance.collection("users").document(globals.username).collection("transport").snapshots(),
+                                  Firestore.instance.collection("users").document(globals.username).collection("product").snapshots(),
                                     (value1, value2, value3) =>  [value1.documents,value2.documents,value3.documents]
                                 ),
                                 builder: (context, snapshot) {

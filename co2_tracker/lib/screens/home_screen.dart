@@ -12,6 +12,7 @@ import 'package:co2_tracker/screens/shopping_main.dart';
 import 'package:co2_tracker/screens/transportation_main.dart';
 import 'package:flutter/material.dart';
 import 'package:co2_tracker/screens/globals.dart' as globals;
+import 'package:flutter/services.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -108,8 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Scaffold(
-      //resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         centerTitle: true,
         title: _title[_index_tab],

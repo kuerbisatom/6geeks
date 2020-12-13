@@ -687,6 +687,8 @@ Future<Widget> loadFromFuture() async {
             "baseline": globals.baseline,
           });
         });
+  
+  //Firestore.instance.collection("users").document(globals.username).collection(collectionPath)
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setInt("baseline", globals.baseline);
