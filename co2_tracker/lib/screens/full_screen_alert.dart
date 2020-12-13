@@ -132,6 +132,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             .showSnackBar(SnackBar(content: Text('New user $user created')));
                         globals.username = user;
                         _setUser(user);
+                        globals.baseline = 0;
                         DateTime now = DateTime.now();
                         DateTime dt = DateTime(now.year,now.month,now.day);
                         Map temp(){
@@ -146,8 +147,16 @@ class MyCustomFormState extends State<MyCustomForm> {
                               "name": user,
                               "city": city,
                               "daily": temp(),
+                              "baseline": 0,
                             }
                             );
+                        var coll = ["food","products","transport"];
+                        for (var i in coll){
+                        Firestore.instance.collection("users").document(globals.username).collection(i).document().setData({
+                          "date": DateTime(now.year,now.month,now.day-1),
+                          "emission": 0,
+                        });
+                        }
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(builder: (context) => Intro()),

@@ -107,13 +107,7 @@ class _DashboardWidgetState extends State<DashboardWidget>{
               stream: Firestore.instance.collection("users").document(globals.username).snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return CircularProgressIndicator();
-                int emission;
-                try {
-                  emission = snapshot.data["daily"]["emission"];
-                } catch (e){
-                  emission = 0;
-                }
-                int value = (snapshot.data["baseline"] + emission);
+                int value = snapshot.data["daily"]["emission"] + snapshot.data["baseline"];
                 var index = 0;
                 if (value < 3){index = 0;}
                 else if (value < 6){index = 1;}
