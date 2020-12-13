@@ -29,7 +29,7 @@ class _CommunityState extends State<Community>{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text("Weekly Dashboard", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+          Text("Daily Dashboard", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           Divider(color: Colors.black12),
           Container(
               width: 400,
@@ -75,7 +75,7 @@ class _CommunityState extends State<Community>{
                         height: 50,
                         child: create_List(n_temp,e_temp,index),
                       );
-                    },separatorBuilder: (BuildContext context, int index) => const Divider(),
+                    }, separatorBuilder: (BuildContext context, int index) => const Divider(),
                   );
                 },
               )
@@ -148,6 +148,13 @@ class _CommunityState extends State<Community>{
   Widget create_Cards(index, documents) {
     return Container(
         child: Card(
+          shadowColor: Colors.green,
+          borderOnForeground: true,
+          //elevation: 10,
+          shape: new RoundedRectangleBorder(
+            side: new BorderSide(color: Colors.green, width: 2.0),
+            borderRadius: BorderRadius.circular(20.0)),
+          //clipBehavior: Clip.hardEdge,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[

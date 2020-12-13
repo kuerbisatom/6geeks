@@ -1,15 +1,12 @@
 library globals.dart;
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 
-import 'dashboard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 bool currentOverlay = true;
 String username;
 int days = 7;
-int baseline = 0;
+int baseline;
 
 addFood(QuerySnapshot document, List<int> items,){
   var value = 0;

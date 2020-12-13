@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart' show DragStartBehavior;
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:co2_tracker/screens/globals.dart' as globals;
@@ -163,6 +164,7 @@ class SurveyState extends State<Survey> {
                         labelText:"Insert year...",
                       ),
                       keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       controller: myController2,
                     ),
 
@@ -176,6 +178,7 @@ class SurveyState extends State<Survey> {
                         labelText:"Insert number...",
                       ),
                       keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       controller: myController3,
                     ),
 
@@ -473,6 +476,7 @@ class SurveyState extends State<Survey> {
                         labelText:"Insert number...",
                       ),
                       keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       controller: myController4,
                     ),
 
@@ -639,6 +643,7 @@ class SurveyState extends State<Survey> {
 
     globals.baseline = finalValue;
 
+
   }
 }
 
@@ -682,6 +687,10 @@ Future<Widget> loadFromFuture() async {
             "baseline": globals.baseline,
           });
         });
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setInt("baseline", globals.baseline);
+
 
   return Future.value(new AfterSplash());
 }

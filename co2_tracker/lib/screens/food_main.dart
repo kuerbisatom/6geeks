@@ -126,8 +126,6 @@ class _FoodMainState extends State<FoodMain> {
                           Text("Your Food is not in the List?"),
                           OutlineButton(
                               onPressed: () {
-                                var product;
-                                var emission;
                                 showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
@@ -141,9 +139,6 @@ class _FoodMainState extends State<FoodMain> {
                                               labelText: 'Food',
                                             ),
                                             controller: _controller1,
-                                            onSubmitted: (String value){
-                                              product = value;
-                                            },
                                           ),
                                           Container(
                                             margin: EdgeInsets.only(top: 10),

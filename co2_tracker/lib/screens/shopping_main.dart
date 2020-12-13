@@ -122,8 +122,6 @@ class _ShoppingMainState extends State<ShoppingMain>{
                         Text("Your Product is not in the List?"),
                         OutlineButton(
                             onPressed: () {
-                              var product;
-                              var emission;
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -137,9 +135,6 @@ class _ShoppingMainState extends State<ShoppingMain>{
                                             labelText: 'Product',
                                           ),
                                           controller: _controller1,
-                                          onSubmitted: (String value){
-                                            product = value;
-                                          },
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(top: 10),
