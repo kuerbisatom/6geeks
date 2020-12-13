@@ -121,7 +121,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        // If the form is valid, display a Snackbar.
                         var user = _controller1.text;
                         int age = int.parse(_controller2.text);
                         var city = _controller3.text;
@@ -150,7 +149,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                               "baseline": 0,
                             }
                             );
-                        var coll = ["food","products","transport"];
+                        var coll = ["food","product","transport"];
                         for (var i in coll){
                         Firestore.instance.collection("users").document(globals.username).collection(i).document().setData({
                           "date": DateTime(now.year,now.month,now.day-1),

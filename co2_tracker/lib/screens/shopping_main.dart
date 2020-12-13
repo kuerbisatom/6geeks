@@ -39,6 +39,7 @@ class _ShoppingMainState extends State<ShoppingMain>{
   List<int> selectedItems = [];
   bool isSwitched = false;
   bool isSwitched2 = false;
+  var country = "Portugal";
 
   void initState() {
     super.initState();
@@ -190,12 +191,16 @@ class _ShoppingMainState extends State<ShoppingMain>{
                         title: Text('Choose country'),
                         backgroundColor: Colors.green,
                       ),
+                      theme: CountryTheme(
+                        isShowFlag: true,
+                        isShowTitle: true,
+                        isShowCode: false,
+                        isDownIcon: true,
+                        showEnglishName: true,
+                      ),
                       initialSelection: '+351',
                       onChanged: (CountryCode code) {
-                        print(code.name);
-                        print(code.code);
-                        print(code.dialCode);
-                        print(code.flagUri);
+                        country = code.name;
                       },
                     ),
                   ),
@@ -249,7 +254,7 @@ class _ShoppingMainState extends State<ShoppingMain>{
                               padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
                               color: Color(0xFF66BB64),
                               onPressed: () {
-                                globals.addProduct(snapshot.data, selectedItems, isSwitched, isSwitched2);
+                                globals.addProduct(snapshot.data, selectedItems, isSwitched, isSwitched2, country);
                                 globals.currentOverlay = true;
                                 Navigator.pushAndRemoveUntil(
                                   context,

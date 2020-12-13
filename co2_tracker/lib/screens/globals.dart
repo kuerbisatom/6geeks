@@ -1,5 +1,8 @@
 library globals.dart;
 
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
@@ -20,7 +23,6 @@ addFood(QuerySnapshot document, List<int> items,){
           value += snapshot.documents[i]["value"];
         }
 
-        print(document.documents);
         bool flag = true;
         for (var elem in document.documents) {
           DateTime dt = new DateTime.fromMillisecondsSinceEpoch(elem["date"].seconds * 1000);
@@ -60,7 +62,7 @@ addFood(QuerySnapshot document, List<int> items,){
 
 }
 
-addProduct(QuerySnapshot document, List<int> items, bool plastic, bool secondHand ) {
+addProduct(QuerySnapshot document, List<int> items, bool plastic, bool secondHand, country) {
   var value = 0;
   DateTime now = new DateTime.now();
   DateTime date = new DateTime(now.year, now.month, now.day);
@@ -71,6 +73,11 @@ addProduct(QuerySnapshot document, List<int> items, bool plastic, bool secondHan
         for (var i in items) {
           value += snapshot.documents[i]["value"];
         }
+        if (plastic) value = value + 2;
+        if (secondHand) value = (value/10).round();
+        Random gen = new Random();
+        value = value + gen.nextInt(20);
+        print(value);
         bool flag = true;
         for (var elem in document.documents) {
           DateTime dt = new DateTime.fromMillisecondsSinceEpoch(elem["date"].seconds * 1000);
