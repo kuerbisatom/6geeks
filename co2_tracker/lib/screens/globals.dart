@@ -103,7 +103,7 @@ addProduct(QuerySnapshot document, List<int> items, bool plastic, bool secondHan
           });
         } else {
           document.reference.updateData({
-            "daily.date": date,
+            "daily.day": date,
             "daily.emission": document.data["daily"]["emission"] + value,
           });
         }

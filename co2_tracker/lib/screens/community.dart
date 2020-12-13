@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:co2_tracker/screens/globals.dart' as globals;
 
 
 class Community extends StatefulWidget {
@@ -11,62 +12,103 @@ class Community extends StatefulWidget {
 
 class _CommunityState extends State<Community>{
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   final List<String> entries = ["Lisa","Peter","You","Fish","Dog","Wolf"];
   final List<String> em = ["14","15","1234","123","121","1452"];
-  final List<String> cards = ["Test1","Test2"];
-  final List<String> challenge = ["Challenge1", "Challenge2"];
+  // final List<String> cards = ["Test1","Test2"];
+  // final List<String> challenge = ["Challenge1", "Challenge2"];
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text("Weekly Dashboard", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            Divider(color: Colors.black12),
-            Container(
-                width: 400,
-                height: 300,
-              child: ListView.separated(
-                padding: const EdgeInsets.all(8),
-                itemCount: entries.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 50,
-                    child: create_List(index),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) => const Divider(),
-              )
-            ),
-            Divider(color: Colors.black12),
-            Text("Challenges", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            StreamBuilder(
-                stream: Firestore.instance.collection("challenges").snapshots(),
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text("Weekly Dashboard", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+          Divider(color: Colors.black12),
+          Container(
+              width: 400,
+              height: 300,
+              child: StreamBuilder(
+                stream: Firestore.instance.collection("users").snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return CircularProgressIndicator();
-                  return Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      height: 200,
-                      width: 400,
-                      child: new Swiper(
-                        itemBuilder: (BuildContext context, int index) {
-                          return create_Cards(index);
-                        },
-                        itemCount: cards.length,
-                        viewportFraction: 0.8,
-                        scale: 0.9,
-                      )
-                  );
-                }
-            ),
+                  DateTime now = new DateTime.now();
+                  DateTime date = new DateTime(now.year,now.month,now.day);
 
-          ],
+                  Map<int, String> map = Map.fromIterable(
+                    snapshot.data.documents,
+                    key: (item) {
+                      DateTime dt = new DateTime.fromMillisecondsSinceEpoch(
+                          item["daily"]["day"].seconds * 1000);
+                      if (dt == date){
+                        return item["baseline"] + item["daily"]["emission"];
+                      } else {
+                        return 0;
+                      }
+                    },
+                    value: (item) => item.documentID,
+                  );
+                  var sorted = map.keys.toList()..sort();
+                  List <String> n_temp = [];
+                  List <int> e_temp = [];
+                  for (var elem in sorted) {
+                    if (elem != 0){
+                      if (map[elem] == globals.username) {
+                        n_temp.add("You");
+                      } else {
+                        n_temp.add(map[elem]);
+                      }
+                      e_temp.add(elem);
+                    }
+                  }
+                  return ListView.separated(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: n_temp.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 50,
+                        child: create_List(n_temp,e_temp,index),
+                      );
+                    },separatorBuilder: (BuildContext context, int index) => const Divider(),
+                  );
+                },
+              )
+
+          ),
+          Divider(color: Colors.black12),
+          Text("Challenges", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+          StreamBuilder(
+              stream: Firestore.instance.collection("challenges").snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return CircularProgressIndicator();
+                return Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    height: 200,
+                    width: 400,
+                    child: new Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return create_Cards(index,snapshot.data.documents);
+                      },
+                      itemCount: snapshot.data.documents.length,
+                      viewportFraction: 0.8,
+                      scale: 0.9,
+                    )
+                );
+              }
+          ),
+
+        ],
       ),
     );
   }
 
-  create_List(index) {
+  create_List(name, emission, index) {
     return Row (
       children: [
         Text((index+1).toString(), style: TextStyle(fontWeight: FontWeight.bold,) ),
@@ -86,44 +128,83 @@ class _CommunityState extends State<Community>{
         ),
         Expanded(
             child: Center(
-              child: Text(entries[index]),
+              child: big(name[index]),
             )
         ),
         Container(
           margin: EdgeInsets.only(right: 20),
-          child: Text(em[index] + "kg",style: TextStyle(fontWeight: FontWeight.bold,) ),
+          child: Text(emission[index].toString() + " kg",style: TextStyle(fontWeight: FontWeight.bold,) ),
         ),
       ],
     );
   }
+  big (name) {
+    if (name == "You"){
+      return Text(name, style: new TextStyle(fontWeight: FontWeight.bold));
+    }
+    return Text(name);
+  }
 
-  Widget create_Cards(index) {
+  Widget create_Cards(index, documents) {
     return Container(
         child: Card(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-             ListTile(
-                title: Text(cards[index], textAlign: TextAlign.center,),
-            ),
+              ListTile(
+                title: Text(documents[index]["Title"], textAlign: TextAlign.center,),
+              ),
               Expanded(
                   child: Container(
-                    child: Text(challenge[index])
+                      margin: EdgeInsets.only(left: 20, right: 20,),
+                      child: Text(documents[index]["Content"])
                   )
-                ),
-              Center(child: FlatButton(
+              ),
+              Center(
+                child: FlatButton(
                   height: 10,
                   child: Text('Join',
                       textScaleFactor: 1.0,
                       style: TextStyle(color: Colors.white)),
-                  padding: EdgeInsets.only(top: 13.0, bottom: 13, right:40, left:40),
+                  padding: EdgeInsets.only(top: 13.0, bottom: 10, right:40, left:40),
                   color: Colors.green,
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Join ' + documents[index]["Title"]),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('This will join you as an participant in the Challenge'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text('Approve'),
+                            onPressed: () {
+                              Firestore.instance.collection("challenges").document(documents[index].documentID).updateData(
+                                  {"participants": FieldValue.arrayUnion([globals.username])}
+                              );
+                              Navigator.of(context).pop();
+                            },
+                        ),
+                      ],),
+                    );
+                  },
+
                   shape: RoundedRectangleBorder(
                       borderRadius: const BorderRadius.all(Radius.circular(25.0))),),),
-              ],
-              ),
-          )
-        );
+            ],
+          ),
+        )
+    );
   }
 }

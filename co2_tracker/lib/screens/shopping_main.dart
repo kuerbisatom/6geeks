@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:co2_tracker/screens/home_screen.dart';
@@ -31,6 +32,9 @@ class listItem{
 }
 
 class _ShoppingMainState extends State<ShoppingMain>{
+  TextEditingController _controller1;
+  TextEditingController _controller2;
+
   @override
   List<int> selectedItems = [];
   bool isSwitched = false;
@@ -38,6 +42,14 @@ class _ShoppingMainState extends State<ShoppingMain>{
 
   void initState() {
     super.initState();
+    _controller1 = TextEditingController();
+    _controller2 = TextEditingController();
+  }
+
+  void dispose() {
+    _controller1.dispose();
+    _controller2.dispose();
+    super.dispose();
   }
 
   List<listItem> items;
@@ -104,6 +116,73 @@ class _ShoppingMainState extends State<ShoppingMain>{
                       )
 
                   ),
+                  Container(
+                    child: Column(
+                      children: [
+                        Text("Your Product is not in the List?"),
+                        OutlineButton(
+                            onPressed: () {
+                              var product;
+                              var emission;
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text("Add new Item"),
+                                  content: SingleChildScrollView(
+                                    child: ListBody(
+                                      children: <Widget>[
+                                        TextField(
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'Product',
+                                          ),
+                                          controller: _controller1,
+                                          onSubmitted: (String value){
+                                            product = value;
+                                          },
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          child: TextField(
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'kg',
+                                            hintText: 'CO2-Emission',
+                                          ),
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          keyboardType: TextInputType.number,
+                                          controller: _controller2,
+                                        ),)
+                                      ],
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('Cancel'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text('Add'),
+                                      onPressed: () {
+                                        Firestore.instance.collection("products").document(_controller1.text).setData(
+                                            {"emission": int.parse(_controller2.text)}
+                                            );
+                                        _controller2.clear();
+                                        _controller1.clear();
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],),
+                              );
+                            },
+                            child: Text("Add new Item", style: new TextStyle(color: Colors.green),))
+                      ],
+                    )
+
+                  ),
+
                   Row(
                       children: [Container(
                           child: Text("Made In",
