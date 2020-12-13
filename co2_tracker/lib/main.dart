@@ -9,12 +9,17 @@ import 'package:co2_tracker/screens/globals.dart' as globals;
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setBool('showSurvey', true);
+  //await prefs.setBool('showSurvey', true);
   var showSurvey = prefs.getBool("showSurvey") ?? true;
   globals.username = prefs.getString("username");
   if (globals.username == null){
     prefs.setString('username', "test");
     globals.username = "test";
+  }
+  globals.baseline= prefs.getInt("baseline");
+  if(globals.baseline == null) {
+    prefs.setInt("baseline", 60);
+    globals.baseline = 60;
   }
 
 
