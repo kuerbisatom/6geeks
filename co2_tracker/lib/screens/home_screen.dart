@@ -9,6 +9,7 @@ import 'package:co2_tracker/screens/fab_bottom.dart';
 import 'package:co2_tracker/screens/layout.dart';
 import 'package:co2_tracker/screens/userprofile.dart';
 import 'package:co2_tracker/screens/shopping_main.dart';
+import 'package:co2_tracker/screens/transportation_main.dart';
 import 'package:flutter/material.dart';
 import 'package:co2_tracker/screens/globals.dart' as globals;
 
@@ -38,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     TipsList(),
     UserProfile(),
     Community(),
-    PlaceholderWidget("Transportation"),
+    TransportationMain(),
     FoodMain(),
     ShoppingMain(),
   ];
@@ -47,6 +48,12 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       globals.currentOverlay = false;
       switch(index) {
+      case 3:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PlaceholderWidget("text")
+            ),);
+          break;  
       case 2: Navigator.push(
           context,
             MaterialPageRoute(builder: (context) => FoodMain(index: index,)
@@ -61,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
         case 0:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PlaceholderWidget("text")
+            MaterialPageRoute(builder: (context) => TransportationMain(index: index,)
             ),);
           break;
       }
