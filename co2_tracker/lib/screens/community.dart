@@ -21,87 +21,87 @@ class _CommunityState extends State<Community>{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text("Daily Dashboard", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          Divider(color: Colors.black12),
-          Container(
-              width: 400,
-              height: 300,
-              child: StreamBuilder(
-                stream: Firestore.instance.collection("users").snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return CircularProgressIndicator();
-                  DateTime now = new DateTime.now();
-                  DateTime date = new DateTime(now.year,now.month,now.day);
+    return SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              Text("Daily Dashboard", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              Divider(color: Colors.black12),
+              Container(
+                  width: 400,
+                  height: 300,
+                  child: StreamBuilder(
+                    stream: Firestore.instance.collection("users").snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return CircularProgressIndicator();
+                      DateTime now = new DateTime.now();
+                      DateTime date = new DateTime(now.year,now.month,now.day);
 
-                  Map<int, String> map = Map.fromIterable(
-                    snapshot.data.documents,
-                    key: (item) {
-                      DateTime dt = new DateTime.fromMillisecondsSinceEpoch(
-                          item["daily"]["day"].seconds * 1000);
-                      if (dt == date){
-                        return item["baseline"] + item["daily"]["emission"];
-                      } else {
-                        return 0;
-                      }
-                    },
-                    value: (item) => item.documentID,
-                  );
-                  var sorted = map.keys.toList()..sort();
-                  List <String> n_temp = [];
-                  List <int> e_temp = [];
-                  for (var elem in sorted) {
-                    if (elem != 0){
-                      if (map[elem] == globals.username) {
-                        n_temp.add("You");
-                      } else {
-                        n_temp.add(map[elem]);
-                      }
-                      e_temp.add(elem);
-                    }
-                  }
-                  return ListView.separated(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: n_temp.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 50,
-                        child: create_List(n_temp,e_temp,index),
+                      Map<int, String> map = Map.fromIterable(
+                        snapshot.data.documents,
+                        key: (item) {
+                          DateTime dt = new DateTime.fromMillisecondsSinceEpoch(
+                              item["daily"]["day"].seconds * 1000);
+                          if (dt == date){
+                            return item["baseline"] + item["daily"]["emission"];
+                          } else {
+                            return 0;
+                          }
+                        },
+                        value: (item) => item.documentID,
                       );
-                    }, separatorBuilder: (BuildContext context, int index) => const Divider(),
-                  );
-                },
-              )
+                      var sorted = map.keys.toList()..sort();
+                      List <String> n_temp = [];
+                      List <int> e_temp = [];
+                      for (var elem in sorted) {
+                        if (elem != 0){
+                          if (map[elem] == globals.username) {
+                            n_temp.add("You");
+                          } else {
+                            n_temp.add(map[elem]);
+                          }
+                          e_temp.add(elem);
+                        }
+                      }
+                      return ListView.separated(
+                        padding: const EdgeInsets.all(8),
+                        itemCount: n_temp.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 50,
+                            child: create_List(n_temp,e_temp,index),
+                          );
+                        }, separatorBuilder: (BuildContext context, int index) => const Divider(),
+                      );
+                    },
+                  )
 
-          ),
-          Divider(color: Colors.black12),
-          Text("Challenges", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          StreamBuilder(
-              stream: Firestore.instance.collection("challenges").snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return CircularProgressIndicator();
-                return Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    height: 200,
-                    width: 400,
-                    child: new Swiper(
-                      itemBuilder: (BuildContext context, int index) {
-                        return create_Cards(index,snapshot.data.documents);
-                      },
-                      itemCount: snapshot.data.documents.length,
-                      viewportFraction: 0.8,
-                      scale: 0.9,
-                    )
-                );
-              }
-          ),
+              ),
+              Divider(color: Colors.black12),
+              Text("Challenges", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              StreamBuilder(
+                  stream: Firestore.instance.collection("challenges").snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return CircularProgressIndicator();
+                    return Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        height: 200,
+                        width: 400,
+                        child: new Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return create_Cards(index,snapshot.data.documents);
+                          },
+                          itemCount: snapshot.data.documents.length,
+                          viewportFraction: 0.8,
+                          scale: 0.9,
+                        )
+                    );
+                  }
+              ),
 
-        ],
-      ),
-    );
+            ],
+          ),
+        ));
   }
 
   create_List(name, emission, index) {
@@ -134,6 +134,7 @@ class _CommunityState extends State<Community>{
       ],
     );
   }
+
   big (name) {
     if (name == "You"){
       return Text(name, style: new TextStyle(fontWeight: FontWeight.bold));
@@ -148,8 +149,8 @@ class _CommunityState extends State<Community>{
           borderOnForeground: true,
           //elevation: 10,
           shape: new RoundedRectangleBorder(
-            side: new BorderSide(color: Colors.green, width: 2.0),
-            borderRadius: BorderRadius.circular(20.0)),
+              side: new BorderSide(color: Colors.green, width: 2.0),
+              borderRadius: BorderRadius.circular(20.0)),
           //clipBehavior: Clip.hardEdge,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -161,7 +162,7 @@ class _CommunityState extends State<Community>{
                   style: new TextStyle(fontWeight: FontWeight.bold),),
               ),
               Expanded(
-                  child: new SingleChildScrollView(
+                child: new SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Container(
                       margin: EdgeInsets.only(left: 20, right: 20,),
@@ -171,7 +172,7 @@ class _CommunityState extends State<Community>{
                             check_part(documents[index]["participants"]),
                           ]
                       ),
-                  )
+                    )
                 ),
               ),
               Center(
@@ -209,8 +210,8 @@ class _CommunityState extends State<Community>{
                               );
                               Navigator.of(context).pop();
                             },
-                        ),
-                      ],),
+                          ),
+                        ],),
                     );
                   },
 

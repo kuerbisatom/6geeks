@@ -69,7 +69,7 @@ class _TransportationMainState extends State<TransportationMain> {
             title: Text("Transportation"),
             automaticallyImplyLeading: false,
           ),
-          body: Center(
+          body: SingleChildScrollView(child :Center(
               child: Column(
                 children: [
                   Row(
@@ -208,7 +208,7 @@ class _TransportationMainState extends State<TransportationMain> {
                               Radius.circular(25.0))),),
                     ),
                 new Container(
-                    margin: EdgeInsets.only(top: 140.0),
+                    margin: EdgeInsets.only(top: 140.0, bottom:20),
                     child: FlatButton(
                       height: 40,
                       child: Text('Insert Manually',
@@ -231,7 +231,7 @@ class _TransportationMainState extends State<TransportationMain> {
                     ),
                     
                 ],
-              )),
+              ))),
         )
     );
   }

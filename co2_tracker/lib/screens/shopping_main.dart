@@ -7,6 +7,8 @@ import 'package:co2_tracker/screens/home_screen.dart';
 import 'package:co2_tracker/screens/globals.dart' as globals;
 import "package:cloud_firestore/cloud_firestore.dart";
 
+import 'full_screen_alert.dart';
+
 
 
 class ShoppingMain extends StatefulWidget {
@@ -77,7 +79,7 @@ class _ShoppingMainState extends State<ShoppingMain>{
             title: Text("Shopping"),
             backgroundColor: Colors.green ,
           ),
-          body: Center(
+          body: SingleChildScrollView(child: Center(
             child: Column(
                 children: [
                   Row(
@@ -123,55 +125,12 @@ class _ShoppingMainState extends State<ShoppingMain>{
                         Text("Your Product is not in the List?"),
                         OutlineButton(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text("Add new Item"),
-                                  content: SingleChildScrollView(
-                                    child: ListBody(
-                                      children: <Widget>[
-                                        TextField(
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: 'Product',
-                                          ),
-                                          controller: _controller1,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          child: TextField(
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: 'kg',
-                                            hintText: 'CO2-Emission',
-                                          ),
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                          keyboardType: TextInputType.number,
-                                          controller: _controller2,
-                                        ),)
-                                      ],
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text('Cancel'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: Text('Add'),
-                                      onPressed: () {
-                                        Firestore.instance.collection("products").document(_controller1.text).setData(
-                                            {"emission": int.parse(_controller2.text)}
-                                            );
-                                        _controller2.clear();
-                                        _controller1.clear();
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],),
-                              );
+                              Navigator.of(context).push(new MaterialPageRoute<Null>(
+                                  builder: (BuildContext context) {
+                                    return new AddProductDialog();
+                                  },
+                                  fullscreenDialog: true
+                              ));
                             },
                             child: Text("Add new Item", style: new TextStyle(color: Colors.green),))
                       ],
@@ -241,7 +200,7 @@ class _ShoppingMainState extends State<ShoppingMain>{
                     ),
                   ),
                   new Container(
-                      margin: EdgeInsets.only(top: 20.0),
+                      margin: EdgeInsets.only(top: 20.0, bottom: 20),
                       child: StreamBuilder(
                           stream: Firestore.instance.collection("users").document(globals.username).collection("product").snapshots(),
                           builder: (context, snapshot) {
@@ -272,7 +231,7 @@ class _ShoppingMainState extends State<ShoppingMain>{
 
                   ),
                 ]),
-          ),
+          )),
         ));
   }
 

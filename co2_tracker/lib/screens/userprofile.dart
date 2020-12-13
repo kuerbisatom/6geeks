@@ -30,7 +30,7 @@ class _UserProfileState extends State<UserProfile> {
             stream: Firestore.instance.collection("users").document(globals.username).snapshots(),
             builder: (context, snapshot) {
               if(!snapshot.hasData) return CircularProgressIndicator();
-              return new Center(
+              return new SingleChildScrollView(child: Center(
                 child: new Column(
                   children: <Widget>[
                     new Container(
@@ -92,18 +92,17 @@ class _UserProfileState extends State<UserProfile> {
                         )),
 
                     new Divider(),
-                    new Container(
-                      margin: EdgeInsets.only(right: 260.0, top: 10),
+                    new Center(
                       child: Text ("Badges",
                         textScaleFactor: 1.2,
                         style: TextStyle(fontWeight: FontWeight.bold),),),
                     new Container(
-                      margin: EdgeInsets.only(right: 250.0, top: 20),
+                      margin: EdgeInsets.only(left: 20, right: 250.0, top: 20),
                       height: 70.0,
                       child: Image.network("https://i.pinimg.com/originals/11/5f/0a/115f0ac90dfc685ff3564a27cb9e11d1.png"),),
                   ],
                 ),
-              );})
+              ));})
     );
   }
 }

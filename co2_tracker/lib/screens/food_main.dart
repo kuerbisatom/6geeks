@@ -8,6 +8,8 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
 import 'package:co2_tracker/screens/globals.dart' as globals;
 
+import 'full_screen_alert.dart';
+
 class FoodMain extends StatefulWidget {
   final int index;
     FoodMain({Key key, @required this.index}) : super(key: key);
@@ -79,7 +81,7 @@ class _FoodMainState extends State<FoodMain> {
             title: Text("Food"),
             automaticallyImplyLeading: false,
           ),
-          body: Center(
+          body: SingleChildScrollView(child: Center(
               child: Column(
                 children: [
                   Row(
@@ -126,55 +128,12 @@ class _FoodMainState extends State<FoodMain> {
                           Text("Your Food is not in the List?"),
                           OutlineButton(
                               onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: Text("Add new Item"),
-                                    content: SingleChildScrollView(
-                                      child: ListBody(
-                                        children: <Widget>[
-                                          TextField(
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              labelText: 'Food',
-                                            ),
-                                            controller: _controller1,
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 10),
-                                            child: TextField(
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                labelText: 'kg',
-                                                hintText: 'CO2-Emission',
-                                              ),
-                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                              keyboardType: TextInputType.number,
-                                              controller: _controller2,
-                                            ),)
-                                        ],
-                                      ),
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text('Cancel'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: Text('Add'),
-                                        onPressed: () {
-                                          Firestore.instance.collection("food").document(_controller1.text).setData(
-                                              {"emission": int.parse(_controller2.text)}
-                                          );
-                                          _controller2.clear();
-                                          _controller1.clear();
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],),
-                                );
+                                Navigator.of(context).push(new MaterialPageRoute<Null>(
+                                    builder: (BuildContext context) {
+                                      return new AddFoodDialog();
+                                    },
+                                    fullscreenDialog: true
+                                ));
                               },
                               child: Text("Add new Item", style: new TextStyle(color: Colors.green),))
                         ],
@@ -238,7 +197,7 @@ class _FoodMainState extends State<FoodMain> {
                   ),
                 ],
 
-              )),
+              ))),
         )
     );
   }
@@ -262,4 +221,3 @@ product_list(List<dynamic> documents) {
   }
   return temp;
 }
-
