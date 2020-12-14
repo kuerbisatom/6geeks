@@ -91,9 +91,11 @@ class _DashboardWidgetState extends State<DashboardWidget>{
   // crow = 0.5 - 2kg; cat = 3 - 5kg ; dog = 6-40; 1500 hippo; 380-1000
   List<String> animals = ["Crow", "Cat","Dog","Horse"];
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(top: 10),
+          child: Column(
+          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               child: Column(
@@ -141,14 +143,14 @@ class _DashboardWidgetState extends State<DashboardWidget>{
 
             Divider(color: Colors.black12),
             Container(
-              height: 100,
+              height: 150,
               child: Column(
                 children: [
                   Text("Distribution",style: TextStyle(fontWeight: FontWeight.bold),),
                   Padding(
                     padding: const EdgeInsets.only(left: 5.0,right: 5.0),
                       child: Container(
-                          height: 75,
+                          height: 100,
                           child: StreamBuilder(
                               stream: Rx.combineLatest3(
                                   Firestore.instance.collection("users").document(globals.username).collection("food").snapshots(),
@@ -169,14 +171,14 @@ class _DashboardWidgetState extends State<DashboardWidget>{
               )),
             Divider(color: Colors.black12),
             Container(
-                height: 300,
+                height: 350,
                 child: Column(
                     children: [
                       Text("Progress",style: TextStyle(fontWeight: FontWeight.bold),),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                        padding: const EdgeInsets.only(left: 10.0,right: 12.0),
                         child: Container(
-                            height: 200,
+                            height: 250,
                             child: StreamBuilder(
                                 stream: Rx.combineLatest3(
                                   Firestore.instance.collection("users").document(globals.username).collection("food").snapshots(),
@@ -220,7 +222,7 @@ class _DashboardWidgetState extends State<DashboardWidget>{
             ),
           ],
         )
-    );
+    ));
   }
 }
 

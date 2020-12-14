@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         title: _title[_index_tab],
       ),
-      body: Center(
+      body: Container(
         child: _children[_index_tab]
       ),
       bottomNavigationBar: FABBottomAppBar(

@@ -23,11 +23,13 @@ class _CommunityState extends State<Community>{
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Container(
+          margin: EdgeInsets.only(top:10),
           child: Column(
             children: [
               Text("Daily Dashboard", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               Divider(color: Colors.black12),
               Container(
+                  margin: EdgeInsets.only(top: 10),
                   width: 400,
                   height: 300,
                   child: StreamBuilder(
