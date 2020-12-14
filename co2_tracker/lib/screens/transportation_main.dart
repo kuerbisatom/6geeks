@@ -1,14 +1,7 @@
 import 'package:co2_tracker/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
-import 'package:co2_tracker/screens/data_saving.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter/services.dart';
 import 'package:co2_tracker/screens/globals.dart' as globals;
-import 'package:flutter/gestures.dart' show DragStartBehavior;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:splashscreen/splashscreen.dart';
 import 'package:co2_tracker/screens/transportation_edit.dart';
 
 class TransportationMain extends StatefulWidget {
@@ -38,6 +31,7 @@ class _TransportationMainState extends State<TransportationMain> {
   void initState() {
     super.initState();
   }
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final List<listItem> items = [
     listItem("apple", 1),
@@ -50,6 +44,7 @@ class _TransportationMainState extends State<TransportationMain> {
     return new WillPopScope(
         onWillPop: _requestPop,
         child: Scaffold(
+          key: _scaffoldKey,
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             leading: IconButton(
@@ -119,12 +114,8 @@ class _TransportationMainState extends State<TransportationMain> {
                           top: 13.0, bottom: 13, right: 40, left: 40),
                       color: Color(0xFF66BB64),
                       onPressed: () {
-                        globals.currentOverlay = true;
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => TransportationEdit()),
-                              (Route <dynamic> route) => false,
-                        );
+                        globals.currentOverlay = false;
+                        _scaffoldKey.currentState.showSnackBar(new SnackBar(content: Text("Just a Mock-Up")));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: const BorderRadius.all(
@@ -171,18 +162,14 @@ class _TransportationMainState extends State<TransportationMain> {
                       color: Color(0xFF66BB64),
                       onPressed: () {
                         globals.currentOverlay = true;
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => TransportationEdit()),
-                              (Route <dynamic> route) => false,
-                        );
+                        _scaffoldKey.currentState.showSnackBar(new SnackBar(content: Text("Just a Mock-Up")));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: const BorderRadius.all(
                               Radius.circular(25.0))),),
                   ),
                   new Container(
-                    margin: EdgeInsets.only(top: 140.0, bottom:20),
+                    margin: EdgeInsets.only(top: 80.0, bottom:20),
                     child: FlatButton(
                       height: 40,
                       child: Text('Insert Manually',
@@ -203,7 +190,6 @@ class _TransportationMainState extends State<TransportationMain> {
                           borderRadius: const BorderRadius.all(
                               Radius.circular(25.0))),),
                   ),
-
                 ],
               )),
         )

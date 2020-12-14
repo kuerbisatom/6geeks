@@ -34,7 +34,7 @@ class _TipsListState extends State<TipsList>{
             return Dismissible( //                           <-- Card widget
               key: new UniqueKey(),
               onDismissed: (direction){
-                Scaffold.of(context).showSnackBar(new SnackBar(content: Text("Tip removed")));
+                Scaffold.of(context).showSnackBar(new SnackBar(content: Text("Tip removed"),behavior: SnackBarBehavior.floating,));
               },
              child: Card(
                shape: RoundedRectangleBorder(

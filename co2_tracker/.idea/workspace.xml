@@ -6,8 +6,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b58131bf-3445-4724-aa8c-3295745712d7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/globals.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/globals.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/survey.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/survey.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/tips.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/tips.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/transportation_edit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/transportation_edit.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/transportation_main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/transportation_main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,9 +138,9 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="1102" y="255" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1607896013043" />
-    <state x="-1" y="255" width="672" height="678" key="search.everywhere.popup" timestamp="1607883848802">
+    <state x="-1" y="255" width="672" height="678" key="search.everywhere.popup" timestamp="1607914488297">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="-1" y="255" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1607883848802" />
+    <state x="-1" y="255" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1607914488297" />
   </component>
 </project>

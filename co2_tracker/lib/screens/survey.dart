@@ -640,7 +640,7 @@ class SurveyState extends State<Survey> {
     }
 
     finalValue = answer1 + answer2 + answer3 + answer4 + answer5 + answer6 + answer7 + answer8;
-
+    finalValue = (finalValue/5).ceil();
     globals.baseline = finalValue;
 
 
@@ -701,6 +701,7 @@ Future<Widget> loadFromFuture() async {
 class AfterSplash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    int percent = ((globals.baseline/5)*100).ceil();
     return new Scaffold(
       body: new Center(
         child: Column(
@@ -718,7 +719,7 @@ class AfterSplash extends StatelessWidget {
               style: new TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30.0),)),
-            Center(child: Text("That is less than 98% of the humans", textAlign: TextAlign.center,
+            Center(child: Text('That is $percent% above the average person', textAlign: TextAlign.center,
               style: new TextStyle(
                   fontSize: 25.0),)),
             Center(child: FlatButton(

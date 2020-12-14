@@ -97,40 +97,80 @@ addProduct(QuerySnapshot document, List<int> items, bool plastic, bool secondHan
           });
         }
 
-      Firestore.instance.collection("users").document(username).get().then((document) {
-        DateTime dt = new DateTime.fromMillisecondsSinceEpoch(
-            document.data["daily"]["day"].seconds * 1000);
-        int number = document.data["daily"]["emission"];
-        if (dt == date) {
-          document.reference.updateData({
-            "daily.emission": document.data["daily"]["emission"] + value,
-          });
-        } else {
-          document.reference.updateData({
-            "daily.day": date,
-            "daily.emission": document.data["daily"]["emission"] + value,
-          });
-        }
+        Firestore.instance.collection("users").document(username).get().then((document) {
+          DateTime dt = new DateTime.fromMillisecondsSinceEpoch(
+              document.data["daily"]["day"].seconds * 1000);
+          int number = document.data["daily"]["emission"];
+          if (dt == date) {
+            document.reference.updateData({
+              "daily.emission": document.data["daily"]["emission"] + value,
+            });
+          } else {
+            document.reference.updateData({
+              "daily.day": date,
+              "daily.emission": document.data["daily"]["emission"] + value,
+            });
+          }
+        });
       });
-          });
-
 }
 
+addPath(vehicle,distance){
+  DateTime now = new DateTime.now();
+  DateTime date = new DateTime(now.year, now.month, now.day);
 
-addNewProduct(List<int> items, bool plastic, bool secondHand ){
+  int value;
+  switch (vehicle){
+    case "  Car":
+      value = (distance/10).ceil();
+      break;
+    case "  Train":
+      value = ((50*distance)/1000).ceil();
+      break;
+    case "  Bus":
+      value = (distance/5);
+      break;
+    case "  Metro":
+      value = ((13*distance)/500).ceil();
+      break;
+  }
 
-  CollectionReference product = Firestore.instance.collection('product');
+  Firestore.instance.collection("users").document(username).get().then((document) {
+    DateTime dt = new DateTime.fromMillisecondsSinceEpoch(
+        document.data["daily"]["day"].seconds * 1000);
+    int number = document.data["daily"]["emission"];
+    if (dt == date) {
+      document.reference.updateData({
+        "daily.emission": document.data["daily"]["emission"] + value,
+      });
+    } else {
+      document.reference.updateData({
+        "daily.day": date,
+        "daily.emission": document.data["daily"]["emission"] + value,
+      });
+    }
+  });
 
-  // Future<void> addUser() {
-  //     // Call the user's CollectionReference to add a new user
-  //     return users
-  //         .add({
-  //       'full_name': fullName, // John Doe
-  //       'company': company, // Stokes and Sons
-  //       'age': age // 42
-  //     })
-  //         .then((value) => print("User Added"))
-  //         .catchError((error) => print("Failed to add user: $error"));
-  //   }
+  Firestore.instance.collection("users").document(username).collection("transport").getDocuments().then(
+          (documents) {
+        bool flag = true;
+        for (var elem in documents.documents){
+          print (elem["date"]);
+          DateTime dt = new DateTime.fromMillisecondsSinceEpoch(
+              elem["date"].seconds * 1000);
+          if (dt == date) {
+            flag = false;
+            elem.reference.updateData({
+              "emission": elem["emission"] + value,
+            });
+          }
+        }
+        if (flag) {
+          Firestore.instance.collection("users").document(username).collection("transport").document().setData({
+            "date": date,
+            "emission": value,
+          });
+        }
 
+      }) ;
 }
