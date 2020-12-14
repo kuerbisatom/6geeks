@@ -128,7 +128,7 @@ addPath(vehicle,distance){
       value = ((50*distance)/1000).ceil();
       break;
     case "  Bus":
-      value = (distance/5);
+      value = (distance/5).ceil();
       break;
     case "  Metro":
       value = ((13*distance)/500).ceil();
