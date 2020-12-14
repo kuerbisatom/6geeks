@@ -13,7 +13,7 @@ import 'package:co2_tracker/screens/transportation_edit.dart';
 
 class TransportationMain extends StatefulWidget {
   final int index;
-    TransportationMain({Key key, @required this.index}) : super(key: key);
+  TransportationMain({Key key, @required this.index}) : super(key: key);
   State<TransportationMain> createState() => _TransportationMainState();
 }
 class listItem{
@@ -69,61 +69,47 @@ class _TransportationMainState extends State<TransportationMain> {
             title: Text("Transportation"),
             automaticallyImplyLeading: false,
           ),
-          body: SingleChildScrollView(child :Center(
+          body: SingleChildScrollView(
               child: Column(
                 children: [
-                  Row(
-                    children: [Container(
-                      child: Text("Detected Trips:",
-                          style: TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.bold)),
-                      margin: EdgeInsets.only(left: 20, top: 20),)
-                    ],
-                  ),
-                  Row(
-                     children: [
-                      Container(
-                        child: new Text("Metro",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                                margin: EdgeInsets.only(left: 20, top: 20),
-                        ),
-                    ],
-                  ),
-                  Row(
-                     children: [
-                      Container(
-                        child: new Text("5km (20min)",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.normal)),
-                                margin: EdgeInsets.only(left: 20, top: 0),
-                        ),
-                    ],
-                  ),
-                  Row(
-                     children: [
-                      Container(
-                        child: new Text("10 AM",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.normal)),
-                                margin: EdgeInsets.only(left: 20, top: 0),
-                        ),
-                    ],
-                  ),
-                  Row(
-                     children: [
-                      Container(
-                        child: new Text("near Saldanha",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.normal)),
-                                margin: EdgeInsets.only(left: 20, top: 0),
-                        ),
-                    ],
+                  Container (
+                      margin: EdgeInsets.all(10),
+                      child: Text("Detected Trips",
+                      style: TextStyle(
+                          fontSize: 26, fontWeight: FontWeight.bold)
+                  )),
+                  Divider(),
+                  Container(
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.green,width: 3),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: SizedBox(
+                          width: MediaQuery.of(context).size.width -10,
+                          height: 150,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text("Metro",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold)),
+                            Text("5km (20min)",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.normal)),
+                            Text("10 AM",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.normal)),
+                            Text("near Saldanha",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.normal)),
+                          ]
+                      ))
                   ),
                   Container(
                   ),
                   new Container(
-                    margin: EdgeInsets.only(top: 20.0),
+                    margin: EdgeInsets.all( 10.0),
                     child: FlatButton(
                       height: 40,
                       child: Text('Edit Trip',
@@ -143,47 +129,35 @@ class _TransportationMainState extends State<TransportationMain> {
                       shape: RoundedRectangleBorder(
                           borderRadius: const BorderRadius.all(
                               Radius.circular(25.0))),),
-                    ),
-                
-                  Row(
-                     children: [
-                      Container(
-                        child: new Text("Car",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                                margin: EdgeInsets.only(left: 20, top: 20),
-                        ),
-                    ],
                   ),
-                  Row(
-                     children: [
-                      Container(
-                        child: new Text("10km (30min)",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.normal)),
-                                margin: EdgeInsets.only(left: 20, top: 0),
-                        ),
-                    ],
-                  ),
-                  Row(
-                     children: [
-                      Container(
-                        child: new Text("12 PM",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.normal)),
-                                margin: EdgeInsets.only(left: 20, top: 0),
-                        ),
-                    ],
-                  ),
-                  Row(
-                     children: [
-                      Container(
-                        child: new Text("near Alfragide",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.normal)),
-                                margin: EdgeInsets.only(left: 20, top: 0),
-                        ),
-                    ],
+                  Divider(),
+                  Container(
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.green, width: 3),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+
+                      child: SizedBox(
+                          width: MediaQuery.of(context).size.width -10,
+                          height: 150,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("Car",
+                                    style: TextStyle(
+                                        fontSize: 24, fontWeight: FontWeight.bold)),
+                                Text("10 km (30 min)",
+                                    style: TextStyle(
+                                        fontSize: 24, fontWeight: FontWeight.normal)),
+                                Text("12 AM",
+                                    style: TextStyle(
+                                        fontSize: 24, fontWeight: FontWeight.normal)),
+                                Text("near Alfragide",
+                                    style: TextStyle(
+                                        fontSize: 24, fontWeight: FontWeight.normal)),
+                              ]
+                          ))
                   ),
                   new Container(
                     margin: EdgeInsets.only(top: 20.0),
@@ -206,8 +180,8 @@ class _TransportationMainState extends State<TransportationMain> {
                       shape: RoundedRectangleBorder(
                           borderRadius: const BorderRadius.all(
                               Radius.circular(25.0))),),
-                    ),
-                new Container(
+                  ),
+                  new Container(
                     margin: EdgeInsets.only(top: 140.0, bottom:20),
                     child: FlatButton(
                       height: 40,
@@ -228,10 +202,10 @@ class _TransportationMainState extends State<TransportationMain> {
                       shape: RoundedRectangleBorder(
                           borderRadius: const BorderRadius.all(
                               Radius.circular(25.0))),),
-                    ),
-                    
+                  ),
+
                 ],
-              ))),
+              )),
         )
     );
   }
