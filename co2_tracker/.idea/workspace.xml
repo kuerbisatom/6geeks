@@ -6,12 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b58131bf-3445-4724-aa8c-3295745712d7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/globals.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/globals.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/survey.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/survey.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/tips.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/tips.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/transportation_edit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/transportation_edit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/transportation_main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/transportation_main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

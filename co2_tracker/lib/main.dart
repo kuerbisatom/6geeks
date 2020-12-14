@@ -24,7 +24,7 @@ Future<void> main() async{
 
 
   runApp(MaterialApp(
-    //debugShowCheckedModeBanner: false,
+    debugShowCheckedModeBanner: false,
     title: 'CO-2 Tracker',
     //debugShowCheckedModeBanner: false,
     theme: ThemeData(
